@@ -34,7 +34,7 @@ function Index() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
 
-  const featured = figures[0];
+  const featured = figures[0]!;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
