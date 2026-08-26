@@ -29,8 +29,6 @@ export const Route = createFileRoute("/")({
 });
 
 type Filter = "all" | Figure["era"] | Figure["region"];
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type _Unused = Filter;
 
 function Index() {
   const [query, setQuery] = useState("");
