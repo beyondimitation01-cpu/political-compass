@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { figures, eras, regions } from "@/lib/figures";
+import { figures, eras, regions, type Figure } from "@/lib/figures";
 import { FigureCard } from "@/components/FigureCard";
 import { Portrait } from "@/components/Portrait";
 import heroLibrary from "@/assets/hero-library.jpg";
@@ -29,6 +29,8 @@ export const Route = createFileRoute("/")({
 });
 
 type Filter = "all" | Figure["era"] | Figure["region"];
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type _Unused = Filter;
 
 function Index() {
   const [query, setQuery] = useState("");
