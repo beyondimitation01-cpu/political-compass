@@ -44,7 +44,9 @@ function Index() {
   const [region, setRegion] = useState<Figure["region"] | "all">("all");
   const [office, setOffice] = useState<OfficeRole | "all">("all");
 
+  const navigate = useNavigate();
   const featured = figures[0]!;
+
 
   const filtered = useMemo(
     () => searchFigures({ query, era, region, office }),
