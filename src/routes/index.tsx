@@ -11,10 +11,15 @@ import {
   type Figure,
   type OfficeRole,
 } from "@/lib/figures";
+import {
+  news,
+  recentlyUpdated,
+  popularFigures,
+  countriesByRegion,
+} from "@/lib/news";
 import { FigureCard } from "@/components/FigureCard";
 import { Portrait } from "@/components/Portrait";
 import heroLibrary from "@/assets/hero-library.jpg";
-
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,7 +28,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A neutral editorial reference of political figures from across the world and across eras — biographies, offices held, and key timeline events.",
+          "A neutral editorial reference of political figures worldwide — biographies, offices held, timelines, and country-by-country browsing.",
       },
       { property: "og:title", content: "The Statesmen Archive" },
       {
@@ -45,8 +50,8 @@ function Index() {
   const [office, setOffice] = useState<OfficeRole | "all">("all");
 
   const navigate = useNavigate();
-  const featured = figures[0]!;
-
+  const featured = figures.slice(0, 3);
+  const lead = figures[0]!;
 
   const filtered = useMemo(
     () => searchFigures({ query, era, region, office }),
@@ -63,27 +68,22 @@ function Index() {
     setOffice("all");
   };
 
-
-  const featuredLifespan = featured.died
-    ? `${featured.born.slice(-4)}–${featured.died.slice(-4)}`
-    : `${featured.born.slice(-4)}–`;
+  const goToSearch = (overrides?: { q?: string; region?: Figure["region"] }) =>
+    navigate({
+      to: "/search",
+      search: {
+        q: overrides?.q ?? query,
+        era,
+        region: overrides?.region ?? region,
+        office,
+        sort: "relevance",
+        page: 1,
+      },
+    });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-          <Link to="/" className="flex items-baseline gap-2">
-            <span className="font-display text-2xl font-semibold tracking-tight text-foreground">
-              Statesmen
-            </span>
-            <span className="eyebrow text-muted-foreground">Archive</span>
-          </Link>
-          <nav className="flex items-center gap-5">
-            <span className="eyebrow text-muted-foreground">A neutral reference</span>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader onSearchClick={() => goToSearch()} />
 
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
@@ -94,127 +94,257 @@ function Index() {
           height={1008}
           className="pointer-events-none absolute inset-0 size-full object-cover opacity-[0.12]"
         />
-        <div className="relative mx-auto max-w-5xl px-5 py-14 sm:py-20">
+        <div className="relative mx-auto max-w-6xl px-5 py-14 sm:py-20">
           <p className="eyebrow text-accent">Profiles in public life</p>
-          <h1 className="mt-3 max-w-2xl font-display text-4xl font-semibold leading-[1.05] tracking-tight text-balance sm:text-5xl">
-            A record of the political figures who shaped the modern world.
+          <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-6xl">
+            A verified record of the political figures who shaped the modern
+            world.
           </h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-            Concise, factual biographies of heads of state and government —
-            their offices, parties, and the moments that defined them — drawn
-            from across regions and across centuries.
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            The Statesmen Archive is a neutral reference platform. Search
+            biographies, offices held, party affiliations and dated timelines
+            for heads of state and government across every region and era.
           </p>
 
           {/* Search */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              navigate({
-                to: "/search",
-                search: {
-                  q: query,
-                  era,
-                  region,
-                  office,
-                  sort: "relevance",
-                  page: 1,
-                },
-              });
+              goToSearch();
             }}
-            className="mt-8 flex max-w-md items-center gap-3 rounded-sm border border-border bg-card px-4 py-3"
+            className="mt-8 flex w-full max-w-2xl flex-col gap-3 rounded-md border border-border bg-card p-3 shadow-sm sm:flex-row sm:items-center"
           >
-            <svg
-              className="size-4 shrink-0 text-muted-foreground"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Search political figures"
-              placeholder="Search names, offices, parties, biographies…"
-              className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
-            />
+            <div className="flex flex-1 items-center gap-3 px-1">
+              <svg
+                className="size-4 shrink-0 text-muted-foreground"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" />
+                <path
+                  d="M11 11l3 3"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                aria-label="Search political leaders"
+                placeholder="Search leaders, offices, parties, countries…"
+                className="w-full bg-transparent py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+              />
+            </div>
             <button
               type="submit"
-              className="shrink-0 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground"
+              className="shrink-0 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
-              Search
+              Search the archive
             </button>
           </form>
-          <p className="mt-3 text-xs text-muted-foreground">
-            Press Search for the full results page with sorting and pagination.
-          </p>
 
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="eyebrow mr-1 text-muted-foreground">Jump to</span>
+            <QuickLink href="#featured" label="Featured leaders" />
+            <QuickLink href="#popular" label="Popular" />
+            <QuickLink href="#news" label="Latest activity" />
+            <QuickLink href="#browse" label="Browse by country" />
+            <QuickLink href="#directory" label="Full directory" />
+          </div>
 
+          <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-6 sm:grid-cols-4">
+            <Stat value={String(figures.length)} label="Profiles" />
+            <Stat value={String(countriesByRegion.reduce((n, g) => n + g.countries.length, 0))} label="Countries" />
+            <Stat value={String(regions.length)} label="Regions" />
+            <Stat value={String(eras.length)} label="Eras" />
+          </dl>
         </div>
       </section>
 
       {/* Featured */}
-      <section className="border-b border-border">
-        <div className="mx-auto max-w-5xl px-5 py-12">
-          <div className="mb-6 flex items-end justify-between">
-            <h2 className="eyebrow text-muted-foreground">Featured figure</h2>
-            <span className="eyebrow text-muted-foreground">
-              {figures.length} profiles
-            </span>
-          </div>
+      <section id="featured" className="border-b border-border scroll-mt-20">
+        <div className="mx-auto max-w-6xl px-5 py-14">
+          <SectionHeading
+            eyebrow="Featured"
+            title="Featured political leaders"
+            action={{ label: "View all profiles", href: "#directory" }}
+          />
 
-          <Link
-            to="/figure/$slug"
-            params={{ slug: featured.slug }}
-            className="group grid gap-6 sm:grid-cols-[auto_1fr]"
-          >
-            <div className="flex flex-col items-start gap-4 sm:flex-row">
-              <Portrait
-                initials={featured.initials}
-                name={featured.name}
-                size="xl"
-              />
-            </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="eyebrow text-accent">{featured.country}</span>
-                <span className="text-[10px] text-muted-foreground">·</span>
-                <span className="eyebrow text-muted-foreground">
-                  {featuredLifespan}
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr]">
+            <Link
+              to="/figure/$slug"
+              params={{ slug: lead.slug }}
+              className="group flex flex-col gap-5 rounded-md border border-border bg-card p-6 transition-colors hover:border-foreground/30 sm:flex-row"
+            >
+              <Portrait initials={lead.initials} name={lead.name} size="xl" />
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="eyebrow text-accent">{lead.country}</span>
+                  <span className="text-[10px] text-muted-foreground">·</span>
+                  <span className="eyebrow text-muted-foreground">
+                    {lifespan(lead)}
+                  </span>
+                </div>
+                <h3 className="mt-2 font-display text-3xl font-semibold leading-tight text-foreground group-hover:text-accent">
+                  {lead.name}
+                </h3>
+                <p className="mt-1 text-sm font-medium text-muted-foreground">
+                  {lead.title}
+                </p>
+                <p className="mt-4 text-base leading-relaxed text-foreground/80">
+                  {lead.summary}
+                </p>
+                <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent">
+                  Read full profile
+                  <Arrow />
                 </span>
               </div>
-              <h3 className="mt-2 font-display text-3xl font-semibold leading-tight text-foreground group-hover:text-accent sm:text-4xl">
-                {featured.name}
-              </h3>
-              <p className="mt-1 text-sm font-medium text-muted-foreground">
-                {featured.title}
-              </p>
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/80">
-                {featured.summary}
-              </p>
-              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent">
-                Read full profile
-                <svg
-                  className="size-4 transition-transform group-hover:translate-x-1"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                >
-                  <path
-                    d="M3 8h10M9 4l4 4-4 4"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
+            </Link>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              {featured.slice(1).map((f) => (
+                <FigureCard key={f.slug} figure={f} />
+              ))}
             </div>
-          </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Recently updated + news */}
+      <section id="news" className="border-b border-border scroll-mt-20">
+        <div className="mx-auto grid max-w-6xl gap-12 px-5 py-14 lg:grid-cols-[1fr_1.1fr]">
+          <div>
+            <SectionHeading eyebrow="Archive" title="Recently updated profiles" />
+            <ul className="divide-y divide-border rounded-md border border-border bg-card">
+              {recentlyUpdated.map((f) => (
+                <li key={f.slug}>
+                  <Link
+                    to="/figure/$slug"
+                    params={{ slug: f.slug }}
+                    className="group flex items-center gap-4 p-4 transition-colors hover:bg-secondary/60"
+                  >
+                    <Portrait initials={f.initials} name={f.name} size="md" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-display text-base font-semibold text-foreground group-hover:text-accent">
+                        {f.name}
+                      </p>
+                      <p className="truncate text-xs text-muted-foreground">
+                        {f.title}
+                      </p>
+                    </div>
+                    <span className="eyebrow shrink-0 text-muted-foreground">
+                      {f.countryCode}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <SectionHeading
+              eyebrow="Newsroom"
+              title="Latest political activity"
+            />
+            <div className="space-y-4">
+              {news.map((item) => (
+                <article
+                  key={item.id}
+                  className="rounded-md border border-border bg-card p-5"
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="eyebrow text-accent">{item.category}</span>
+                    <span className="text-[10px] text-muted-foreground">·</span>
+                    <time className="eyebrow text-muted-foreground">
+                      {item.date}
+                    </time>
+                  </div>
+                  <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-foreground">
+                    {item.headline}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {item.body}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Popular */}
+      <section id="popular" className="border-b border-border scroll-mt-20">
+        <div className="mx-auto max-w-6xl px-5 py-14">
+          <SectionHeading eyebrow="Most read" title="Popular leaders" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {popularFigures.map((f, i) => (
+              <Link
+                key={f.slug}
+                to="/figure/$slug"
+                params={{ slug: f.slug }}
+                className="group flex items-start gap-4 rounded-md border border-border bg-card p-4 transition-colors hover:border-foreground/30"
+              >
+                <span className="font-display text-2xl font-semibold text-muted-foreground/60">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="min-w-0">
+                  <h3 className="font-display text-base font-semibold leading-tight text-foreground group-hover:text-accent">
+                    {f.name}
+                  </h3>
+                  <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                    {f.country} · {lifespan(f)}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Browse by country */}
+      <section id="browse" className="border-b border-border scroll-mt-20">
+        <div className="mx-auto max-w-6xl px-5 py-14">
+          <SectionHeading
+            eyebrow="Geography"
+            title="Browse leaders by country and region"
+          />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {countriesByRegion.map((group) => (
+              <div
+                key={group.region}
+                className="rounded-md border border-border bg-card p-5"
+              >
+                <button
+                  onClick={() => goToSearch({ q: "", region: group.region })}
+                  className="eyebrow text-accent hover:underline"
+                >
+                  {group.region}
+                </button>
+                <ul className="mt-3 space-y-1.5">
+                  {group.countries.map((c) => (
+                    <li key={c.country}>
+                      <button
+                        onClick={() => goToSearch({ q: c.country })}
+                        className="flex w-full items-center justify-between gap-3 text-left text-sm text-foreground/80 transition-colors hover:text-accent"
+                      >
+                        <span className="truncate">{c.country}</span>
+                        <span className="shrink-0 text-xs text-muted-foreground">
+                          {c.count}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Directory */}
-      <section id="directory" className="mx-auto max-w-5xl px-5 py-12">
+      <section id="directory" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-14">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <h2 className="font-display text-2xl font-semibold text-foreground">
             The directory
@@ -291,7 +421,7 @@ function Index() {
             No figures match your search.
           </p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((figure) => (
               <FigureCard key={figure.slug} figure={figure} />
             ))}
@@ -299,8 +429,120 @@ function Index() {
         )}
       </section>
 
-
       <Footer />
+    </div>
+  );
+}
+
+function lifespan(f: Figure) {
+  return f.died ? `${f.born.slice(-4)}–${f.died.slice(-4)}` : `${f.born.slice(-4)}–`;
+}
+
+function Arrow() {
+  return (
+    <svg
+      className="size-4 transition-transform group-hover:translate-x-1"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M3 8h10M9 4l4 4-4 4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SiteHeader({ onSearchClick }: { onSearchClick: () => void }) {
+  return (
+    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5">
+        <Link to="/" className="flex items-baseline gap-2">
+          <span className="font-display text-2xl font-semibold tracking-tight text-foreground">
+            Statesmen
+          </span>
+          <span className="eyebrow text-muted-foreground">Archive</span>
+        </Link>
+        <nav className="hidden items-center gap-6 md:flex">
+          <NavLink href="#featured" label="Featured" />
+          <NavLink href="#popular" label="Popular" />
+          <NavLink href="#news" label="Activity" />
+          <NavLink href="#browse" label="Countries" />
+          <NavLink href="#directory" label="Directory" />
+        </nav>
+        <button
+          onClick={onSearchClick}
+          className="shrink-0 rounded-md bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+        >
+          Search
+        </button>
+      </div>
+    </header>
+  );
+}
+
+function NavLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+    >
+      {label}
+    </a>
+  );
+}
+
+function QuickLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+    >
+      {label}
+    </a>
+  );
+}
+
+function Stat({ value, label }: { value: string; label: string }) {
+  return (
+    <div>
+      <dt className="eyebrow text-muted-foreground">{label}</dt>
+      <dd className="mt-1 font-display text-3xl font-semibold text-foreground">
+        {value}
+      </dd>
+    </div>
+  );
+}
+
+function SectionHeading({
+  eyebrow,
+  title,
+  action,
+}: {
+  eyebrow: string;
+  title: string;
+  action?: { label: string; href: string };
+}) {
+  return (
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p className="eyebrow text-accent">{eyebrow}</p>
+        <h2 className="mt-1 font-display text-2xl font-semibold text-foreground sm:text-3xl">
+          {title}
+        </h2>
+      </div>
+      {action && (
+        <a
+          href={action.href}
+          className="text-sm font-semibold text-accent hover:underline"
+        >
+          {action.label}
+        </a>
+      )}
     </div>
   );
 }
@@ -348,8 +590,8 @@ function FilterChip({
 function Footer() {
   return (
     <footer className="border-t border-border bg-card">
-      <div className="mx-auto max-w-5xl px-5 py-10">
-        <div className="flex items-baseline justify-between">
+      <div className="mx-auto max-w-6xl px-5 py-10">
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
           <span className="font-display text-xl font-semibold text-foreground">
             Statesmen Archive
           </span>
