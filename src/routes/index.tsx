@@ -1,10 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { figures, eras, regions, type Figure } from "@/lib/figures";
+import {
+  figures,
+  eras,
+  regions,
+  officeRoles,
+  searchFigures,
+  type Figure,
+  type OfficeRole,
+} from "@/lib/figures";
 import { FigureCard } from "@/components/FigureCard";
 import { Portrait } from "@/components/Portrait";
 import heroLibrary from "@/assets/hero-library.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
