@@ -1,10 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { figures, eras, regions, type Figure } from "@/lib/figures";
+import {
+  figures,
+  eras,
+  regions,
+  officeRoles,
+  searchFigures,
+  type Figure,
+  type OfficeRole,
+} from "@/lib/figures";
 import { FigureCard } from "@/components/FigureCard";
 import { Portrait } from "@/components/Portrait";
 import heroLibrary from "@/assets/hero-library.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,28 +37,29 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Filter = "all" | Figure["era"] | Figure["region"];
-
 function Index() {
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<Filter>("all");
+  const [era, setEra] = useState<Figure["era"] | "all">("all");
+  const [region, setRegion] = useState<Figure["region"] | "all">("all");
+  const [office, setOffice] = useState<OfficeRole | "all">("all");
 
   const featured = figures[0]!;
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return figures.filter((f) => {
-      const matchesQuery =
-        !q ||
-        f.name.toLowerCase().includes(q) ||
-        f.country.toLowerCase().includes(q) ||
-        f.title.toLowerCase().includes(q) ||
-        f.party.toLowerCase().includes(q);
-      const matchesFilter =
-        filter === "all" || f.era === filter || f.region === filter;
-      return matchesQuery && matchesFilter;
-    });
-  }, [query, filter]);
+  const filtered = useMemo(
+    () => searchFigures({ query, era, region, office }),
+    [query, era, region, office],
+  );
+
+  const hasFilters =
+    query.trim() !== "" || era !== "all" || region !== "all" || office !== "all";
+
+  const clearAll = () => {
+    setQuery("");
+    setEra("all");
+    setRegion("all");
+    setOffice("all");
+  };
+
 
   const featuredLifespan = featured.died
     ? `${featured.born.slice(-4)}–${featured.died.slice(-4)}`
@@ -105,10 +115,21 @@ function Index() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search a name, country, or party…"
+              aria-label="Search political figures"
+              placeholder="Search names, offices, parties, biographies…"
               className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
             />
+            {query && (
+              <button
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="shrink-0 text-xs font-medium text-muted-foreground hover:text-foreground"
+              >
+                Clear
+              </button>
+            )}
           </div>
+
         </div>
       </section>
 
@@ -173,41 +194,76 @@ function Index() {
       </section>
 
       {/* Directory */}
-      <section className="mx-auto max-w-5xl px-5 py-12">
-        <div className="mb-6 flex items-end justify-between">
+      <section id="directory" className="mx-auto max-w-5xl px-5 py-12">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <h2 className="font-display text-2xl font-semibold text-foreground">
             The directory
           </h2>
           <p className="text-sm text-muted-foreground">
-            Filter by era or region
+            {filtered.length} of {figures.length} profiles
+            {hasFilters && (
+              <>
+                {" · "}
+                <button
+                  onClick={clearAll}
+                  className="font-semibold text-accent hover:underline"
+                >
+                  Clear all
+                </button>
+              </>
+            )}
           </p>
         </div>
 
         {/* Filters */}
-        <div className="mb-8 flex flex-wrap gap-2">
-          <FilterChip
-            active={filter === "all"}
-            onClick={() => setFilter("all")}
-            label="All"
-          />
-          {eras.map((era) => (
+        <div className="mb-8 space-y-4">
+          <FilterRow label="Era">
             <FilterChip
-              key={era}
-              active={filter === era}
-              onClick={() => setFilter(era)}
-              label={era}
+              active={era === "all"}
+              onClick={() => setEra("all")}
+              label="All"
             />
-          ))}
-          {regions
-            .filter((r) => r !== "Oceania")
-            .map((region) => (
+            {eras.map((e) => (
               <FilterChip
-                key={region}
-                active={filter === region}
-                onClick={() => setFilter(region)}
-                label={region}
+                key={e}
+                active={era === e}
+                onClick={() => setEra(e)}
+                label={e}
               />
             ))}
+          </FilterRow>
+
+          <FilterRow label="Region">
+            <FilterChip
+              active={region === "all"}
+              onClick={() => setRegion("all")}
+              label="All"
+            />
+            {regions.map((r) => (
+              <FilterChip
+                key={r}
+                active={region === r}
+                onClick={() => setRegion(r)}
+                label={r}
+              />
+            ))}
+          </FilterRow>
+
+          <FilterRow label="Office">
+            <FilterChip
+              active={office === "all"}
+              onClick={() => setOffice("all")}
+              label="All"
+            />
+            {officeRoles.map((o) => (
+              <FilterChip
+                key={o}
+                active={office === o}
+                onClick={() => setOffice(o)}
+                label={o}
+              />
+            ))}
+          </FilterRow>
         </div>
 
         {filtered.length === 0 ? (
@@ -223,7 +279,25 @@ function Index() {
         )}
       </section>
 
+
       <Footer />
+    </div>
+  );
+}
+
+function FilterRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="eyebrow w-16 shrink-0 text-muted-foreground">
+        {label}
+      </span>
+      {children}
     </div>
   );
 }
