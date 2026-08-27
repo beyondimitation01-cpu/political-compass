@@ -37,28 +37,29 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Filter = "all" | Figure["era"] | Figure["region"];
-
 function Index() {
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<Filter>("all");
+  const [era, setEra] = useState<Figure["era"] | "all">("all");
+  const [region, setRegion] = useState<Figure["region"] | "all">("all");
+  const [office, setOffice] = useState<OfficeRole | "all">("all");
 
   const featured = figures[0]!;
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return figures.filter((f) => {
-      const matchesQuery =
-        !q ||
-        f.name.toLowerCase().includes(q) ||
-        f.country.toLowerCase().includes(q) ||
-        f.title.toLowerCase().includes(q) ||
-        f.party.toLowerCase().includes(q);
-      const matchesFilter =
-        filter === "all" || f.era === filter || f.region === filter;
-      return matchesQuery && matchesFilter;
-    });
-  }, [query, filter]);
+  const filtered = useMemo(
+    () => searchFigures({ query, era, region, office }),
+    [query, era, region, office],
+  );
+
+  const hasFilters =
+    query.trim() !== "" || era !== "all" || region !== "all" || office !== "all";
+
+  const clearAll = () => {
+    setQuery("");
+    setEra("all");
+    setRegion("all");
+    setOffice("all");
+  };
+
 
   const featuredLifespan = featured.died
     ? `${featured.born.slice(-4)}–${featured.died.slice(-4)}`
