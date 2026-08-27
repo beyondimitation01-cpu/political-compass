@@ -115,10 +115,21 @@ function Index() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search a name, country, or party…"
+              aria-label="Search political figures"
+              placeholder="Search names, offices, parties, biographies…"
               className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
             />
+            {query && (
+              <button
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="shrink-0 text-xs font-medium text-muted-foreground hover:text-foreground"
+              >
+                Clear
+              </button>
+            )}
           </div>
+
         </div>
       </section>
 
