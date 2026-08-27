@@ -183,41 +183,76 @@ function Index() {
       </section>
 
       {/* Directory */}
-      <section className="mx-auto max-w-5xl px-5 py-12">
-        <div className="mb-6 flex items-end justify-between">
+      <section id="directory" className="mx-auto max-w-5xl px-5 py-12">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <h2 className="font-display text-2xl font-semibold text-foreground">
             The directory
           </h2>
           <p className="text-sm text-muted-foreground">
-            Filter by era or region
+            {filtered.length} of {figures.length} profiles
+            {hasFilters && (
+              <>
+                {" · "}
+                <button
+                  onClick={clearAll}
+                  className="font-semibold text-accent hover:underline"
+                >
+                  Clear all
+                </button>
+              </>
+            )}
           </p>
         </div>
 
         {/* Filters */}
-        <div className="mb-8 flex flex-wrap gap-2">
-          <FilterChip
-            active={filter === "all"}
-            onClick={() => setFilter("all")}
-            label="All"
-          />
-          {eras.map((era) => (
+        <div className="mb-8 space-y-4">
+          <FilterRow label="Era">
             <FilterChip
-              key={era}
-              active={filter === era}
-              onClick={() => setFilter(era)}
-              label={era}
+              active={era === "all"}
+              onClick={() => setEra("all")}
+              label="All"
             />
-          ))}
-          {regions
-            .filter((r) => r !== "Oceania")
-            .map((region) => (
+            {eras.map((e) => (
               <FilterChip
-                key={region}
-                active={filter === region}
-                onClick={() => setFilter(region)}
-                label={region}
+                key={e}
+                active={era === e}
+                onClick={() => setEra(e)}
+                label={e}
               />
             ))}
+          </FilterRow>
+
+          <FilterRow label="Region">
+            <FilterChip
+              active={region === "all"}
+              onClick={() => setRegion("all")}
+              label="All"
+            />
+            {regions.map((r) => (
+              <FilterChip
+                key={r}
+                active={region === r}
+                onClick={() => setRegion(r)}
+                label={r}
+              />
+            ))}
+          </FilterRow>
+
+          <FilterRow label="Office">
+            <FilterChip
+              active={office === "all"}
+              onClick={() => setOffice("all")}
+              label="All"
+            />
+            {officeRoles.map((o) => (
+              <FilterChip
+                key={o}
+                active={office === o}
+                onClick={() => setOffice(o)}
+                label={o}
+              />
+            ))}
+          </FilterRow>
         </div>
 
         {filtered.length === 0 ? (
@@ -232,6 +267,7 @@ function Index() {
           </div>
         )}
       </section>
+
 
       <Footer />
     </div>
