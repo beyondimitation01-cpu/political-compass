@@ -60,24 +60,9 @@ function FigureProfile() {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-          <Link to="/" className="flex items-baseline gap-2">
-            <span className="font-display text-2xl font-semibold tracking-tight text-foreground">
-              Statesmen
-            </span>
-            <span className="eyebrow text-muted-foreground">Archive</span>
-          </Link>
-          <Link
-            to="/"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground"
-          >
-            Directory
-          </Link>
-        </div>
-      </header>
+    <div>
+      
+      
 
       {/* Profile header */}
       <section className="border-b border-border">
@@ -221,22 +206,7 @@ function FigureProfile() {
         </section>
       )}
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-card">
-        <div className="mx-auto max-w-5xl px-5 py-10">
-          <div className="flex items-baseline justify-between">
-            <span className="font-display text-xl font-semibold text-foreground">
-              Statesmen Archive
-            </span>
-            <span className="eyebrow text-muted-foreground">
-              A neutral reference
-            </span>
-          </div>
-          <p className="mt-6 text-[10px] text-muted-foreground/70">
-            © {new Date().getFullYear()} Statesmen Archive
-          </p>
-        </div>
-      </footer>
+      
     </div>
   );
 }

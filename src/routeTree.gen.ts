@@ -10,12 +10,84 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as CompareRouteImport } from './routes/compare'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CountriesRouteImport } from './routes/countries'
+import { Route as LeadersRouteImport } from './routes/leaders'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as PartiesRouteImport } from './routes/parties'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as RegionsRouteImport } from './routes/regions'
+import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as FigureSlugRouteImport } from './routes/figure/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CountriesRoute = CountriesRouteImport.update({
+  id: '/countries',
+  path: '/countries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadersRoute = LeadersRouteImport.update({
+  id: '/leaders',
+  path: '/leaders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartiesRoute = PartiesRouteImport.update({
+  id: '/parties',
+  path: '/parties',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegionsRoute = RegionsRouteImport.update({
+  id: '/regions',
+  path: '/regions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SavedRoute = SavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -31,30 +103,124 @@ const FigureSlugRoute = FigureSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
+  '/countries': typeof CountriesRoute
+  '/leaders': typeof LeadersRoute
+  '/news': typeof NewsRoute
+  '/notifications': typeof NotificationsRoute
+  '/parties': typeof PartiesRoute
+  '/profile': typeof ProfileRoute
+  '/regions': typeof RegionsRoute
+  '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
+  '/countries': typeof CountriesRoute
+  '/leaders': typeof LeadersRoute
+  '/news': typeof NewsRoute
+  '/notifications': typeof NotificationsRoute
+  '/parties': typeof PartiesRoute
+  '/profile': typeof ProfileRoute
+  '/regions': typeof RegionsRoute
+  '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
+  '/countries': typeof CountriesRoute
+  '/leaders': typeof LeadersRoute
+  '/news': typeof NewsRoute
+  '/notifications': typeof NotificationsRoute
+  '/parties': typeof PartiesRoute
+  '/profile': typeof ProfileRoute
+  '/regions': typeof RegionsRoute
+  '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search' | '/figure/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/compare'
+    | '/contact'
+    | '/countries'
+    | '/leaders'
+    | '/news'
+    | '/notifications'
+    | '/parties'
+    | '/profile'
+    | '/regions'
+    | '/saved'
+    | '/search'
+    | '/figure/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/search' | '/figure/$slug'
-  id: '__root__' | '/' | '/search' | '/figure/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/compare'
+    | '/contact'
+    | '/countries'
+    | '/leaders'
+    | '/news'
+    | '/notifications'
+    | '/parties'
+    | '/profile'
+    | '/regions'
+    | '/saved'
+    | '/search'
+    | '/figure/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/compare'
+    | '/contact'
+    | '/countries'
+    | '/leaders'
+    | '/news'
+    | '/notifications'
+    | '/parties'
+    | '/profile'
+    | '/regions'
+    | '/saved'
+    | '/search'
+    | '/figure/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRoute
+  CompareRoute: typeof CompareRoute
+  ContactRoute: typeof ContactRoute
+  CountriesRoute: typeof CountriesRoute
+  LeadersRoute: typeof LeadersRoute
+  NewsRoute: typeof NewsRoute
+  NotificationsRoute: typeof NotificationsRoute
+  PartiesRoute: typeof PartiesRoute
+  ProfileRoute: typeof ProfileRoute
+  RegionsRoute: typeof RegionsRoute
+  SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
   FigureSlugRoute: typeof FigureSlugRoute
 }
@@ -66,6 +232,90 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/countries': {
+      id: '/countries'
+      path: '/countries'
+      fullPath: '/countries'
+      preLoaderRoute: typeof CountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leaders': {
+      id: '/leaders'
+      path: '/leaders'
+      fullPath: '/leaders'
+      preLoaderRoute: typeof LeadersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parties': {
+      id: '/parties'
+      path: '/parties'
+      fullPath: '/parties'
+      preLoaderRoute: typeof PartiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/regions': {
+      id: '/regions'
+      path: '/regions'
+      fullPath: '/regions'
+      preLoaderRoute: typeof RegionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -87,6 +337,18 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AdminRoute: AdminRoute,
+  CompareRoute: CompareRoute,
+  ContactRoute: ContactRoute,
+  CountriesRoute: CountriesRoute,
+  LeadersRoute: LeadersRoute,
+  NewsRoute: NewsRoute,
+  NotificationsRoute: NotificationsRoute,
+  PartiesRoute: PartiesRoute,
+  ProfileRoute: ProfileRoute,
+  RegionsRoute: RegionsRoute,
+  SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
   FigureSlugRoute: FigureSlugRoute,
 }

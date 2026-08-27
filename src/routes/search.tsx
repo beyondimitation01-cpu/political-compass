@@ -95,23 +95,8 @@ function SearchPage() {
     navigate({ search: (prev) => ({ ...prev, page: 1, ...patch }) });
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-          <Link to="/" className="flex items-baseline gap-2">
-            <span className="font-display text-2xl font-semibold tracking-tight text-foreground">
-              Statesmen
-            </span>
-            <span className="eyebrow text-muted-foreground">Archive</span>
-          </Link>
-          <Link
-            to="/"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground"
-          >
-            Directory
-          </Link>
-        </div>
-      </header>
+    <div>
+      
 
       <section className="border-b border-border">
         <div className="mx-auto max-w-5xl px-5 py-10">
