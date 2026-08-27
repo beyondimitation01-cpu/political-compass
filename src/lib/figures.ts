@@ -512,3 +512,81 @@ export const regions: Figure["region"][] = [
 export function getFigure(slug: string): Figure | undefined {
   return figures.find((f) => f.slug === slug);
 }
+
+/* ---------- Search & filtering ---------- */
+
+export const officeRoles = [
+  "President",
+  "Prime Minister",
+  "Chancellor",
+  "Minister",
+  "Secretary",
+  "Party Leader",
+  "Legislator",
+] as const;
+
+export type OfficeRole = (typeof officeRoles)[number];
+
+const officePatterns: Record<OfficeRole, RegExp> = {
+  President: /president/i,
+  "Prime Minister": /prime minister|premier|taoiseach/i,
+  Chancellor: /chancellor/i,
+  Minister: /minister/i,
+  Secretary: /secretary/i,
+  "Party Leader": /leader|chairman|general secretary/i,
+  Legislator: /parliament|congress|senat|assembly|deputy|mp\b/i,
+};
+
+export function figureOfficeRoles(figure: Figure): OfficeRole[] {
+  const text = [figure.title, ...figure.offices].join(" ");
+  return officeRoles.filter((role) => officePatterns[role].test(text));
+}
+
+const searchIndex = new Map<string, string>(
+  figures.map((f) => [
+    f.slug,
+    [
+      f.name,
+      f.title,
+      f.country,
+      f.countryCode,
+      f.party,
+      f.era,
+      f.region,
+      f.born,
+      f.died ?? "",
+      f.summary,
+      ...f.bio,
+      ...f.offices,
+      ...f.timeline.flatMap((t) => [t.year, t.title, t.detail]),
+    ]
+      .join(" ")
+      .toLowerCase(),
+  ]),
+);
+
+export type FigureFilters = {
+  query: string;
+  era: Figure["era"] | "all";
+  region: Figure["region"] | "all";
+  office: OfficeRole | "all";
+};
+
+export function searchFigures({
+  query,
+  era,
+  region,
+  office,
+}: FigureFilters): Figure[] {
+  const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+
+  return figures.filter((f) => {
+    if (era !== "all" && f.era !== era) return false;
+    if (region !== "all" && f.region !== region) return false;
+    if (office !== "all" && !figureOfficeRoles(f).includes(office)) return false;
+    if (terms.length === 0) return true;
+    const haystack = searchIndex.get(f.slug) ?? "";
+    return terms.every((t) => haystack.includes(t));
+  });
+}
+
