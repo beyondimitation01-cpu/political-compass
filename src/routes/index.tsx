@@ -82,9 +82,7 @@ function Index() {
     });
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <SiteHeader onSearchClick={() => goToSearch()} />
-
+    <div>
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
         <img
@@ -429,7 +427,6 @@ function Index() {
         )}
       </section>
 
-      <Footer />
     </div>
   );
 }
@@ -457,44 +454,7 @@ function Arrow() {
   );
 }
 
-function SiteHeader({ onSearchClick }: { onSearchClick: () => void }) {
-  return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5">
-        <Link to="/" className="flex items-baseline gap-2">
-          <span className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Statesmen
-          </span>
-          <span className="eyebrow text-muted-foreground">Archive</span>
-        </Link>
-        <nav className="hidden items-center gap-6 md:flex">
-          <NavLink href="#featured" label="Featured" />
-          <NavLink href="#popular" label="Popular" />
-          <NavLink href="#news" label="Activity" />
-          <NavLink href="#browse" label="Countries" />
-          <NavLink href="#directory" label="Directory" />
-        </nav>
-        <button
-          onClick={onSearchClick}
-          className="shrink-0 rounded-md bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-        >
-          Search
-        </button>
-      </div>
-    </header>
-  );
-}
 
-function NavLink({ href, label }: { href: string; label: string }) {
-  return (
-    <a
-      href={href}
-      className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-    >
-      {label}
-    </a>
-  );
-}
 
 function QuickLink({ href, label }: { href: string; label: string }) {
   return (
@@ -587,25 +547,3 @@ function FilterChip({
   );
 }
 
-function Footer() {
-  return (
-    <footer className="border-t border-border bg-card">
-      <div className="mx-auto max-w-6xl px-5 py-10">
-        <div className="flex flex-wrap items-baseline justify-between gap-3">
-          <span className="font-display text-xl font-semibold text-foreground">
-            Statesmen Archive
-          </span>
-          <span className="eyebrow text-muted-foreground">A neutral reference</span>
-        </div>
-        <p className="mt-3 max-w-md text-xs leading-relaxed text-muted-foreground">
-          Biographical summaries are compiled for educational reference. Content
-          is neutral and factual; verify against primary sources for scholarly
-          use.
-        </p>
-        <p className="mt-6 text-[10px] text-muted-foreground/70">
-          © {new Date().getFullYear()} Statesmen Archive
-        </p>
-      </div>
-    </footer>
-  );
-}
