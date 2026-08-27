@@ -103,7 +103,23 @@ function Index() {
           </p>
 
           {/* Search */}
-          <div className="mt-8 flex max-w-md items-center gap-3 rounded-sm border border-border bg-card px-4 py-3">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              navigate({
+                to: "/search",
+                search: {
+                  q: query,
+                  era,
+                  region,
+                  office,
+                  sort: "relevance",
+                  page: 1,
+                },
+              });
+            }}
+            className="mt-8 flex max-w-md items-center gap-3 rounded-sm border border-border bg-card px-4 py-3"
+          >
             <svg
               className="size-4 shrink-0 text-muted-foreground"
               viewBox="0 0 16 16"
@@ -119,16 +135,17 @@ function Index() {
               placeholder="Search names, offices, parties, biographies…"
               className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
             />
-            {query && (
-              <button
-                onClick={() => setQuery("")}
-                aria-label="Clear search"
-                className="shrink-0 text-xs font-medium text-muted-foreground hover:text-foreground"
-              >
-                Clear
-              </button>
-            )}
-          </div>
+            <button
+              type="submit"
+              className="shrink-0 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground"
+            >
+              Search
+            </button>
+          </form>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Press Search for the full results page with sorting and pagination.
+          </p>
+
 
         </div>
       </section>
