@@ -6,7 +6,6 @@ export type NewsItem = {
   category: "Archive update" | "Editorial note" | "Anniversary" | "Research";
   headline: string;
   body: string;
-  slug?: string;
 };
 
 /** Editorial activity log for the archive. Static, factual, neutral. */
@@ -17,7 +16,6 @@ export const news: NewsItem[] = [
     category: "Archive update",
     headline: "Timeline entries expanded for post-war European leaders",
     body: "Additional dated events were added to profiles covering reconstruction, European integration and the end of the Cold War.",
-    slug: figures[0]?.slug,
   },
   {
     id: "n2",
