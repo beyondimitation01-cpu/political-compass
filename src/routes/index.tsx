@@ -285,6 +285,23 @@ function Index() {
   );
 }
 
+function FilterRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="eyebrow w-16 shrink-0 text-muted-foreground">
+        {label}
+      </span>
+      {children}
+    </div>
+  );
+}
+
 function FilterChip({
   active,
   onClick,
