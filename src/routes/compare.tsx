@@ -4,6 +4,7 @@ import { useState } from "react";
 import { figures, figureOfficeRoles, type Figure } from "@/lib/figures";
 import { PageShell } from "@/components/PageShell";
 import { Portrait } from "@/components/Portrait";
+import { AiComparison } from "@/components/AiComparison";
 
 export const Route = createFileRoute("/compare")({
   head: () => ({
@@ -41,6 +42,8 @@ function ComparePage() {
         <Column figure={left} />
         <Column figure={right} />
       </div>
+
+      <AiComparison />
     </PageShell>
   );
 }
