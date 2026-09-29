@@ -26,7 +26,7 @@ function profileText(f: Figure) {
 }
 
 export async function runComparison(figs: Figure[], question: string) {
-  const apiKey = process.env.LOVABLE_API_KEY;
+  const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new GatewayError(500, "AI is not configured.");
 
   let status = 0;
