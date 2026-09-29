@@ -82,7 +82,7 @@ function Index() {
     });
 
   return (
-    <div className="home-vintage-maroon">
+    <div>
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
         <img
