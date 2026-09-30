@@ -28,8 +28,8 @@ const primaryNav = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { isAuthenticated, isAdmin, user, notifications, signIn, signOut } =
-    useAuth();
+  const { isAuthenticated, isAdmin, user, notifications, signOut } = useAuth();
+
 
   const unread = notifications.filter((n) => !n.read).length;
 
@@ -43,10 +43,11 @@ export function SiteHeader() {
   const close = () => setOpen(false);
 
   const handleSignOut = () => {
-    signOut();
+    void signOut();
     close();
     navigate({ to: "/" });
   };
+
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
@@ -132,13 +133,14 @@ export function SiteHeader() {
           )}
 
           {!isAuthenticated && (
-            <button
-              onClick={() => signIn("member")}
+            <Link
+              to="/auth"
               className="hidden rounded-md border border-border px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:bg-secondary xl:inline-flex"
             >
               Sign in
-            </button>
+            </Link>
           )}
+
 
           <button
             onClick={() => setOpen((v) => !v)}
@@ -218,26 +220,23 @@ export function SiteHeader() {
                 </>
               ) : (
                 <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => {
-                      signIn("member");
-                      close();
-                    }}
+                  <Link
+                    to="/auth"
+                    onClick={close}
                     className="rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground"
                   >
-                    Sign in as reader
-                  </button>
-                  <button
-                    onClick={() => {
-                      signIn("admin");
-                      close();
-                    }}
+                    Sign in
+                  </Link>
+                  <Link
+                    to="/auth"
+                    onClick={close}
                     className="rounded-md border border-border px-4 py-2.5 text-xs font-semibold text-foreground"
                   >
-                    Sign in as admin
-                  </button>
+                    Create account
+                  </Link>
                 </div>
               )}
+
             </div>
           </nav>
         </div>
