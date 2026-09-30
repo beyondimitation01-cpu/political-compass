@@ -7,11 +7,10 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { Session } from "@supabase/supabase-js";
 
-/**
- * Lightweight demo session used to drive navigation state.
- * Replace with Lovable Cloud auth when a real backend is added.
- */
+import { supabase } from "@/integrations/supabase/client";
+
 export type SessionUser = {
   name: string;
   email: string;
@@ -22,16 +21,13 @@ type AuthValue = {
   user: SessionUser | null;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  loading: boolean;
   saved: string[];
   notifications: { id: string; date: string; text: string; read: boolean }[];
-  signIn: (role?: SessionUser["role"]) => void;
-  signOut: () => void;
-  toggleSaved: (slug: string) => void;
+  signOut: () => Promise<void>;
+  toggleSaved: (slug: string) => Promise<void>;
   markAllRead: () => void;
 };
-
-const STORAGE_KEY = "sa.session";
-const SAVED_KEY = "sa.saved";
 
 const AuthContext = createContext<AuthValue | null>(null);
 
@@ -42,45 +38,79 @@ const seedNotifications = [
 ];
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<SessionUser | null>(null);
+  const [loading, setLoading] = useState(true);
   const [saved, setSaved] = useState<string[]>([]);
   const [notifications, setNotifications] = useState(seedNotifications);
 
   useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) setUser(JSON.parse(raw) as SessionUser);
-      const rawSaved = window.localStorage.getItem(SAVED_KEY);
-      if (rawSaved) setSaved(JSON.parse(rawSaved) as string[]);
-    } catch {
-      /* ignore malformed storage */
-    }
-  }, []);
-
-  const signIn = useCallback((role: SessionUser["role"] = "member") => {
-    const next: SessionUser = {
-      name: role === "admin" ? "Archive Editor" : "Archive Reader",
-      email: role === "admin" ? "editor@statesmen.archive" : "reader@statesmen.archive",
-      role,
-    };
-    setUser(next);
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-  }, []);
-
-  const signOut = useCallback(() => {
-    setUser(null);
-    window.localStorage.removeItem(STORAGE_KEY);
-  }, []);
-
-  const toggleSaved = useCallback((slug: string) => {
-    setSaved((prev) => {
-      const next = prev.includes(slug)
-        ? prev.filter((s) => s !== slug)
-        : [...prev, slug];
-      window.localStorage.setItem(SAVED_KEY, JSON.stringify(next));
-      return next;
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
+      setSession(next);
+      setLoading(false);
     });
+    void supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setLoading(false);
+    });
+    return () => sub.subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const authUser = session?.user;
+    if (!authUser) {
+      setUser(null);
+      setSaved([]);
+      return;
+    }
+
+    let active = true;
+
+    void (async () => {
+      const [profileRes, rolesRes, savedRes] = await Promise.all([
+        supabase.from("profiles").select("display_name, email").eq("id", authUser.id).maybeSingle(),
+        supabase.from("user_roles").select("role").eq("user_id", authUser.id),
+        supabase.from("saved_figures").select("slug").eq("user_id", authUser.id),
+      ]);
+      if (!active) return;
+
+      const isAdmin = (rolesRes.data ?? []).some((r) => r.role === "admin");
+      setUser({
+        name:
+          profileRes.data?.display_name ??
+          (authUser.email ? authUser.email.split("@")[0]! : "Reader"),
+        email: profileRes.data?.email ?? authUser.email ?? "",
+        role: isAdmin ? "admin" : "member",
+      });
+      setSaved((savedRes.data ?? []).map((row) => row.slug));
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [session]);
+
+  const signOut = useCallback(async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    setUser(null);
+    setSaved([]);
+  }, []);
+
+  const toggleSaved = useCallback(
+    async (slug: string) => {
+      const userId = session?.user.id;
+      if (!userId) return;
+      const isSaved = saved.includes(slug);
+      setSaved((prev) => (isSaved ? prev.filter((s) => s !== slug) : [...prev, slug]));
+      if (isSaved) {
+        await supabase.from("saved_figures").delete().eq("user_id", userId).eq("slug", slug);
+      } else {
+        await supabase.from("saved_figures").insert({ user_id: userId, slug });
+      }
+    },
+    [session, saved],
+  );
 
   const markAllRead = useCallback(
     () => setNotifications((prev) => prev.map((n) => ({ ...n, read: true }))),
@@ -92,14 +122,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user,
       isAuthenticated: user !== null,
       isAdmin: user?.role === "admin",
+      loading,
       saved,
       notifications,
-      signIn,
       signOut,
       toggleSaved,
       markAllRead,
     }),
-    [user, saved, notifications, signIn, signOut, toggleSaved, markAllRead],
+    [user, loading, saved, notifications, signOut, toggleSaved, markAllRead],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
