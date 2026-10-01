@@ -90,6 +90,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, [session]);
 
+  // Reload bookmarks when the tab/app comes back into view, so changes made
+  // on another device (e.g. a phone) show up without a manual refresh.
+  useEffect(() => {
+    const userId = session?.user.id;
+    if (!userId) return;
+    const refresh = async () => {
+      if (document.visibilityState !== "visible") return;
+      const { data, error } = await supabase
+        .from("saved_figures")
+        .select("slug")
+        .eq("user_id", userId);
+      if (!error) setSaved((data ?? []).map((row) => row.slug));
+    };
+    document.addEventListener("visibilitychange", refresh);
+    return () => document.removeEventListener("visibilitychange", refresh);
+  }, [session]);
+
+
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setSession(null);
