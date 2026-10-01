@@ -22,6 +22,7 @@ import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as PartiesRouteImport } from './routes/parties'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as QuotesRouteImport } from './routes/quotes'
+import { Route as PolicyRecordsRouteImport } from './routes/policy-records'
 import { Route as RegionsRouteImport } from './routes/regions'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
@@ -92,6 +93,11 @@ const QuotesRoute = QuotesRouteImport.update({
   path: '/quotes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PolicyRecordsRoute = PolicyRecordsRouteImport.update({
+  id: '/policy-records',
+  path: '/policy-records',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegionsRoute = RegionsRouteImport.update({
   id: '/regions',
   path: '/regions',
@@ -127,6 +133,8 @@ export interface FileRoutesByFullPath {
   '/parties': typeof PartiesRoute
   '/profile': typeof ProfileRoute
   '/quotes': typeof QuotesRoute
+  '/policy-records': typeof PolicyRecordsRoute
+  '/policy-records': typeof PolicyRecordsRoute
   '/regions': typeof RegionsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
@@ -187,6 +195,7 @@ export interface FileRouteTypes {
     | '/parties'
     | '/profile'
     | '/quotes'
+    | '/policy-records'
     | '/regions'
     | '/saved'
     | '/search'
@@ -245,6 +254,7 @@ export interface RootRouteChildren {
   PartiesRoute: typeof PartiesRoute
   ProfileRoute: typeof ProfileRoute
   QuotesRoute: typeof QuotesRoute
+  PolicyRecordsRoute: typeof PolicyRecordsRoute
   RegionsRoute: typeof RegionsRoute
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
@@ -344,6 +354,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuotesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/policy-records': {
+      id: '/policy-records'
+      path: '/policy-records'
+      fullPath: '/policy-records'
+      preLoaderRoute: typeof PolicyRecordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/regions': {
       id: '/regions'
       path: '/regions'
@@ -389,6 +406,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartiesRoute: PartiesRoute,
   ProfileRoute: ProfileRoute,
   QuotesRoute: QuotesRoute,
+  PolicyRecordsRoute: PolicyRecordsRoute,
   RegionsRoute: RegionsRoute,
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
