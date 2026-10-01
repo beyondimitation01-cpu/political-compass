@@ -50,7 +50,7 @@ grant insert, update, delete on table public.figure_quotes to authenticated;
 
 create policy "Anyone can read published quotes"
 on public.figure_quotes for select to anon, authenticated
-using (published = true or (select public.has_role((select auth.uid()), 'admin'::public.app_role)));
+using (published = true or (select public.has_role('admin'::public.app_role, (select auth.uid()))));
 
 create policy "Admins can insert quotes"
 on public.figure_quotes for insert to authenticated
