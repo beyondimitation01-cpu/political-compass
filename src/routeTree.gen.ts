@@ -134,6 +134,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/quotes': typeof QuotesRoute
+  '/quotes': typeof QuotesRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
@@ -152,6 +153,7 @@ export interface FileRoutesByTo {
   '/figure/$slug': typeof FigureSlugRoute
 }
 export interface FileRoutesById {
+  '/quotes': typeof QuotesRoute
   '/quotes': typeof QuotesRoute
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
@@ -335,6 +337,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes': {
+      id: '/quotes'
+      path: '/quotes'
+      fullPath: '/quotes'
+      preLoaderRoute: typeof QuotesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quotes': {
