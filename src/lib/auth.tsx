@@ -103,10 +103,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!userId) return;
       const isSaved = saved.includes(slug);
       setSaved((prev) => (isSaved ? prev.filter((s) => s !== slug) : [...prev, slug]));
-      if (isSaved) {
-        await supabase.from("saved_figures").delete().eq("user_id", userId).eq("slug", slug);
-      } else {
-        await supabase.from("saved_figures").insert({ user_id: userId, slug });
+      const { error } = isSaved
+        ? await supabase.from("saved_figures").delete().eq("user_id", userId).eq("slug", slug)
+        : await supabase.from("saved_figures").insert({ user_id: userId, slug });
+      if (error) {
+        // Roll back the optimistic change so the screen matches what's stored.
+        setSaved((prev) => (isSaved ? [...prev, slug] : prev.filter((s) => s !== slug)));
       }
     },
     [session, saved],
