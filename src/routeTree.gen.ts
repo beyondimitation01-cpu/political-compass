@@ -205,6 +205,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/parties'
     | '/profile'
+    | '/quotes'
     | '/regions'
     | '/saved'
     | '/search'
@@ -223,6 +224,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/parties'
     | '/profile'
+    | '/quotes'
     | '/regions'
     | '/saved'
     | '/search'
@@ -333,6 +335,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes': {
+      id: '/quotes'
+      path: '/quotes'
+      fullPath: '/quotes'
+      preLoaderRoute: typeof QuotesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/regions': {
