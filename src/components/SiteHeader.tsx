@@ -93,6 +93,13 @@ export function SiteHeader() {
           {isAuthenticated && (
             <div className="hidden items-center gap-1 xl:flex">
               <Link
+                to="/dashboard"
+                className="rounded-md px-2.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                activeProps={{ className: "text-foreground bg-secondary" }}
+              >
+                Dashboard
+              </Link>
+              <Link
                 to="/notifications"
                 aria-label="Notifications"
                 className="relative rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground"
@@ -194,6 +201,9 @@ export function SiteHeader() {
                   </p>
                   <ul className="grid gap-1">
                     <li>
+                      <MobileItem to="/dashboard" label="Dashboard" onClick={close} />
+                    </li>
+                    <li>
                       <MobileItem to="/profile" label="Profile" onClick={close} />
                     </li>
                     <li>
@@ -253,7 +263,7 @@ function MobileItem({
   label,
   onClick,
 }: {
-  to: "/profile" | "/saved" | "/notifications" | "/admin";
+  to: "/dashboard" | "/profile" | "/saved" | "/notifications" | "/admin";
   label: string;
   onClick: () => void;
 }) {
