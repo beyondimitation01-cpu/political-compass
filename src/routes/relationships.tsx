@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Search, ExternalLink, Plus, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { PageShell } from "@/components/PageShell";
 import { figures } from "@/lib/figures";
 
 type Relationship = {
@@ -67,7 +66,7 @@ function RelationshipsPage() {
     setSaving(false);
   }
   const label = (value: string) => kinds.find(([key]) => key === value)?.[1] ?? value;
-  return <PageShell>
+  return <>
     <main className="mx-auto max-w-5xl px-5 py-12">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div><p className="eyebrow text-accent">Research tools</p><h1 className="mt-2 font-display text-3xl font-semibold text-foreground sm:text-4xl">Political connections</h1>
@@ -95,5 +94,5 @@ function RelationshipsPage() {
       {error && !showForm && <p role="alert" className="mt-4 text-sm text-destructive">{error}</p>}
       {loading ? <p className="mt-8 text-sm text-muted-foreground">Loading relationships…</p> : filtered.length ? <div className="mt-6 grid gap-4">{filtered.map(item=><article key={item.id} className="rounded-md border border-border bg-card p-5"><div className="flex flex-wrap items-center gap-2"><span className="eyebrow text-accent">{label(item.relationship_type)}</span><span className="text-xs text-muted-foreground">· {item.verification_status.replace("_"," ")}</span>{item.started_at && <span className="text-xs text-muted-foreground">· {item.started_at}{item.ended_at ? ` – ${item.ended_at}` : ""}</span>}</div><div className="mt-3 flex flex-wrap items-center gap-2 font-display text-lg font-semibold"><Link to="/figure/$slug" params={{slug:item.from_figure_slug}} className="text-foreground hover:text-accent">{item.from_figure_name}</Link><span className="text-muted-foreground">↔</span><Link to="/figure/$slug" params={{slug:item.to_figure_slug}} className="text-foreground hover:text-accent">{item.to_figure_name}</Link></div>{item.description && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.description}</p>}<a href={item.source_url} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-accent hover:underline">{item.source_title}{item.source_publisher ? ` · ${item.source_publisher}` : ""}<ExternalLink className="size-3"/></a>{item.verification_notes && <p className="mt-2 text-xs text-muted-foreground">Verification note: {item.verification_notes}</p>}</article>)}</div> : <div className="mt-8 rounded-md border border-dashed border-border p-10 text-center"><h2 className="font-display text-lg font-semibold text-foreground">No relationships found</h2><p className="mt-2 text-sm text-muted-foreground">{query || kind !== "all" ? "Try changing your search or filter." : "Sourced political connections will appear here as they are added to the archive."}</p></div>}
     </main>
-  </PageShell>;
+  </>;
 }
