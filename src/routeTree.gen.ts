@@ -21,6 +21,7 @@ import { Route as NewsRouteImport } from './routes/news'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as PartiesRouteImport } from './routes/parties'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as QuotesRouteImport } from './routes/quotes'
 import { Route as RegionsRouteImport } from './routes/regions'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
@@ -86,6 +87,11 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuotesRoute = QuotesRouteImport.update({
+  id: '/quotes',
+  path: '/quotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegionsRoute = RegionsRouteImport.update({
   id: '/regions',
   path: '/regions',
@@ -108,6 +114,7 @@ const FigureSlugRoute = FigureSlugRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/quotes': typeof QuotesRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/figure/$slug': typeof FigureSlugRoute
 }
 export interface FileRoutesByTo {
+  '/quotes': typeof QuotesRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
@@ -144,6 +152,7 @@ export interface FileRoutesByTo {
   '/figure/$slug': typeof FigureSlugRoute
 }
 export interface FileRoutesById {
+  '/quotes': typeof QuotesRoute
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/parties'
     | '/profile'
+    | '/quotes'
     | '/regions'
     | '/saved'
     | '/search'
@@ -232,6 +242,7 @@ export interface RootRouteChildren {
   NotificationsRoute: typeof NotificationsRoute
   PartiesRoute: typeof PartiesRoute
   ProfileRoute: typeof ProfileRoute
+  QuotesRoute: typeof QuotesRoute
   RegionsRoute: typeof RegionsRoute
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
@@ -368,6 +379,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotificationsRoute: NotificationsRoute,
   PartiesRoute: PartiesRoute,
   ProfileRoute: ProfileRoute,
+  QuotesRoute: QuotesRoute,
   RegionsRoute: RegionsRoute,
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
