@@ -114,7 +114,6 @@ const FigureSlugRoute = FigureSlugRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/quotes': typeof QuotesRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
@@ -127,14 +126,13 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof NotificationsRoute
   '/parties': typeof PartiesRoute
   '/profile': typeof ProfileRoute
+  '/quotes': typeof QuotesRoute
   '/regions': typeof RegionsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
 }
 export interface FileRoutesByTo {
-  '/quotes': typeof QuotesRoute
-  '/quotes': typeof QuotesRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
@@ -147,14 +145,13 @@ export interface FileRoutesByTo {
   '/notifications': typeof NotificationsRoute
   '/parties': typeof PartiesRoute
   '/profile': typeof ProfileRoute
+  '/quotes': typeof QuotesRoute
   '/regions': typeof RegionsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
 }
 export interface FileRoutesById {
-  '/quotes': typeof QuotesRoute
-  '/quotes': typeof QuotesRoute
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
@@ -168,6 +165,7 @@ export interface FileRoutesById {
   '/notifications': typeof NotificationsRoute
   '/parties': typeof PartiesRoute
   '/profile': typeof ProfileRoute
+  '/quotes': typeof QuotesRoute
   '/regions': typeof RegionsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
@@ -337,13 +335,6 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quotes': {
-      id: '/quotes'
-      path: '/quotes'
-      fullPath: '/quotes'
-      preLoaderRoute: typeof QuotesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quotes': {
