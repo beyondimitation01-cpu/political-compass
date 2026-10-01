@@ -99,14 +99,14 @@ const QuotesRoute = QuotesRouteImport.update({
   path: '/quotes',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RelationshipsRoute = RelationshipsRouteImport.update({
-  id: '/relationships',
-  path: '/relationships',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const RegionsRoute = RegionsRouteImport.update({
   id: '/regions',
   path: '/regions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RelationshipsRoute = RelationshipsRouteImport.update({
+  id: '/relationships',
+  path: '/relationships',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SavedRoute = SavedRouteImport.update({
@@ -140,9 +140,8 @@ export interface FileRoutesByFullPath {
   '/policy-records': typeof PolicyRecordsRoute
   '/profile': typeof ProfileRoute
   '/quotes': typeof QuotesRoute
-  '/relationships': typeof RelationshipsRoute
-  '/relationships': typeof RelationshipsRoute
   '/regions': typeof RegionsRoute
+  '/relationships': typeof RelationshipsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
@@ -163,6 +162,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/quotes': typeof QuotesRoute
   '/regions': typeof RegionsRoute
+  '/relationships': typeof RelationshipsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
@@ -184,6 +184,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/quotes': typeof QuotesRoute
   '/regions': typeof RegionsRoute
+  '/relationships': typeof RelationshipsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
@@ -205,8 +206,8 @@ export interface FileRouteTypes {
     | '/policy-records'
     | '/profile'
     | '/quotes'
-    | '/relationships'
     | '/regions'
+    | '/relationships'
     | '/saved'
     | '/search'
     | '/figure/$slug'
@@ -227,6 +228,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/quotes'
     | '/regions'
+    | '/relationships'
     | '/saved'
     | '/search'
     | '/figure/$slug'
@@ -247,6 +249,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/quotes'
     | '/regions'
+    | '/relationships'
     | '/saved'
     | '/search'
     | '/figure/$slug'
@@ -267,8 +270,8 @@ export interface RootRouteChildren {
   PolicyRecordsRoute: typeof PolicyRecordsRoute
   ProfileRoute: typeof ProfileRoute
   QuotesRoute: typeof QuotesRoute
-  RelationshipsRoute: typeof RelationshipsRoute
   RegionsRoute: typeof RegionsRoute
+  RelationshipsRoute: typeof RelationshipsRoute
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
   FigureSlugRoute: typeof FigureSlugRoute
@@ -374,18 +377,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuotesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/relationships': {
-      id: '/relationships'
-      path: '/relationships'
-      fullPath: '/relationships'
-      preLoaderRoute: typeof RelationshipsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/regions': {
       id: '/regions'
       path: '/regions'
       fullPath: '/regions'
       preLoaderRoute: typeof RegionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/relationships': {
+      id: '/relationships'
+      path: '/relationships'
+      fullPath: '/relationships'
+      preLoaderRoute: typeof RelationshipsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/saved': {
@@ -427,8 +430,8 @@ const rootRouteChildren: RootRouteChildren = {
   PolicyRecordsRoute: PolicyRecordsRoute,
   ProfileRoute: ProfileRoute,
   QuotesRoute: QuotesRoute,
-  RelationshipsRoute: RelationshipsRoute,
   RegionsRoute: RegionsRoute,
+  RelationshipsRoute: RelationshipsRoute,
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
   FigureSlugRoute: FigureSlugRoute,
