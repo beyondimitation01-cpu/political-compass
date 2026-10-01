@@ -20,6 +20,7 @@ const primaryNav = [
   { to: "/regions", label: "States/Regions" },
   { to: "/parties", label: "Political Parties" },
   { to: "/news", label: "News" },
+  { to: "/quotes", label: "Quotes Archive" },
   { to: "/compare", label: "Compare" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
