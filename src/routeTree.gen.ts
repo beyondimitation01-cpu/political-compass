@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CountriesRouteImport } from './routes/countries'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LeadersRouteImport } from './routes/leaders'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as NotificationsRouteImport } from './routes/notifications'
@@ -62,6 +63,11 @@ const ContactRoute = ContactRouteImport.update({
 const CountriesRoute = CountriesRouteImport.update({
   id: '/countries',
   path: '/countries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LeadersRoute = LeadersRouteImport.update({
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/countries': typeof CountriesRoute
+  '/dashboard': typeof DashboardRoute
   '/leaders': typeof LeadersRoute
   '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/countries': typeof CountriesRoute
+  '/dashboard': typeof DashboardRoute
   '/leaders': typeof LeadersRoute
   '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/countries': typeof CountriesRoute
+  '/dashboard': typeof DashboardRoute
   '/leaders': typeof LeadersRoute
   '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/compare'
     | '/contact'
     | '/countries'
+    | '/dashboard'
     | '/leaders'
     | '/news'
     | '/notifications'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/compare'
     | '/contact'
     | '/countries'
+    | '/dashboard'
     | '/leaders'
     | '/news'
     | '/notifications'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/compare'
     | '/contact'
     | '/countries'
+    | '/dashboard'
     | '/leaders'
     | '/news'
     | '/notifications'
@@ -263,6 +275,7 @@ export interface RootRouteChildren {
   CompareRoute: typeof CompareRoute
   ContactRoute: typeof ContactRoute
   CountriesRoute: typeof CountriesRoute
+  DashboardRoute: typeof DashboardRoute
   LeadersRoute: typeof LeadersRoute
   NewsRoute: typeof NewsRoute
   NotificationsRoute: typeof NotificationsRoute
@@ -326,6 +339,13 @@ declare module '@tanstack/react-router' {
       path: '/countries'
       fullPath: '/countries'
       preLoaderRoute: typeof CountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/leaders': {
@@ -423,6 +443,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompareRoute: CompareRoute,
   ContactRoute: ContactRoute,
   CountriesRoute: CountriesRoute,
+  DashboardRoute: DashboardRoute,
   LeadersRoute: LeadersRoute,
   NewsRoute: NewsRoute,
   NotificationsRoute: NotificationsRoute,
