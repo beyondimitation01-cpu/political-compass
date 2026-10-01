@@ -22,6 +22,7 @@ const primaryNav = [
   { to: "/news", label: "News" },
   { to: "/quotes", label: "Quotes Archive" },
   { to: "/policy-records", label: "Voting & Policy Records" },
+  { to: "/relationships", label: "Political Connections" },
   { to: "/compare", label: "Compare" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
