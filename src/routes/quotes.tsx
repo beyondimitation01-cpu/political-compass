@@ -4,7 +4,6 @@ import { Search, ExternalLink, Quote, Plus, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { PageShell } from "@/components/PageShell";
-import { SignedOutNotice } from "@/components/SignedOutNotice";
 import { figures } from "@/lib/figures";
 
 type QuoteRecord = {
@@ -88,7 +87,6 @@ function QuotesPage() {
     if (deleteError) setError(deleteError.message); else await load();
   }
 
-  if (!isAuthenticated && false) return <SignedOutNotice page="the quotes archive" />;
   return <PageShell eyebrow="Primary sources" title="Fact-Checked Quotes Archive"
     intro="A searchable record of public statements, with source links, context, and transparent verification status.">
     <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-5">
