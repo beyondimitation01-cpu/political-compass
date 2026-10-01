@@ -20,9 +20,9 @@ import { Route as LeadersRouteImport } from './routes/leaders'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as PartiesRouteImport } from './routes/parties'
+import { Route as PolicyRecordsRouteImport } from './routes/policy-records'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as QuotesRouteImport } from './routes/quotes'
-import { Route as PolicyRecordsRouteImport } from './routes/policy-records'
 import { Route as RegionsRouteImport } from './routes/regions'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
@@ -83,6 +83,11 @@ const PartiesRoute = PartiesRouteImport.update({
   path: '/parties',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PolicyRecordsRoute = PolicyRecordsRouteImport.update({
+  id: '/policy-records',
+  path: '/policy-records',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -91,11 +96,6 @@ const ProfileRoute = ProfileRouteImport.update({
 const QuotesRoute = QuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PolicyRecordsRoute = PolicyRecordsRouteImport.update({
-  id: '/policy-records',
-  path: '/policy-records',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegionsRoute = RegionsRouteImport.update({
@@ -131,10 +131,9 @@ export interface FileRoutesByFullPath {
   '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
   '/parties': typeof PartiesRoute
+  '/policy-records': typeof PolicyRecordsRoute
   '/profile': typeof ProfileRoute
   '/quotes': typeof QuotesRoute
-  '/policy-records': typeof PolicyRecordsRoute
-  '/policy-records': typeof PolicyRecordsRoute
   '/regions': typeof RegionsRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
@@ -152,6 +151,7 @@ export interface FileRoutesByTo {
   '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
   '/parties': typeof PartiesRoute
+  '/policy-records': typeof PolicyRecordsRoute
   '/profile': typeof ProfileRoute
   '/quotes': typeof QuotesRoute
   '/regions': typeof RegionsRoute
@@ -172,6 +172,7 @@ export interface FileRoutesById {
   '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
   '/parties': typeof PartiesRoute
+  '/policy-records': typeof PolicyRecordsRoute
   '/profile': typeof ProfileRoute
   '/quotes': typeof QuotesRoute
   '/regions': typeof RegionsRoute
@@ -193,9 +194,9 @@ export interface FileRouteTypes {
     | '/news'
     | '/notifications'
     | '/parties'
+    | '/policy-records'
     | '/profile'
     | '/quotes'
-    | '/policy-records'
     | '/regions'
     | '/saved'
     | '/search'
@@ -213,6 +214,7 @@ export interface FileRouteTypes {
     | '/news'
     | '/notifications'
     | '/parties'
+    | '/policy-records'
     | '/profile'
     | '/quotes'
     | '/regions'
@@ -232,6 +234,7 @@ export interface FileRouteTypes {
     | '/news'
     | '/notifications'
     | '/parties'
+    | '/policy-records'
     | '/profile'
     | '/quotes'
     | '/regions'
@@ -252,9 +255,9 @@ export interface RootRouteChildren {
   NewsRoute: typeof NewsRoute
   NotificationsRoute: typeof NotificationsRoute
   PartiesRoute: typeof PartiesRoute
+  PolicyRecordsRoute: typeof PolicyRecordsRoute
   ProfileRoute: typeof ProfileRoute
   QuotesRoute: typeof QuotesRoute
-  PolicyRecordsRoute: typeof PolicyRecordsRoute
   RegionsRoute: typeof RegionsRoute
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
@@ -340,6 +343,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/policy-records': {
+      id: '/policy-records'
+      path: '/policy-records'
+      fullPath: '/policy-records'
+      preLoaderRoute: typeof PolicyRecordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -352,13 +362,6 @@ declare module '@tanstack/react-router' {
       path: '/quotes'
       fullPath: '/quotes'
       preLoaderRoute: typeof QuotesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/policy-records': {
-      id: '/policy-records'
-      path: '/policy-records'
-      fullPath: '/policy-records'
-      preLoaderRoute: typeof PolicyRecordsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/regions': {
@@ -404,9 +407,9 @@ const rootRouteChildren: RootRouteChildren = {
   NewsRoute: NewsRoute,
   NotificationsRoute: NotificationsRoute,
   PartiesRoute: PartiesRoute,
+  PolicyRecordsRoute: PolicyRecordsRoute,
   ProfileRoute: ProfileRoute,
   QuotesRoute: QuotesRoute,
-  PolicyRecordsRoute: PolicyRecordsRoute,
   RegionsRoute: RegionsRoute,
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
