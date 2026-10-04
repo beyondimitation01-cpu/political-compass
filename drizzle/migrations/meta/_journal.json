@@ -8,6 +8,13 @@
       "when": 1790793841802,
       "tag": "0000_accounts_profiles_saved_figures",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791105784549,
+      "tag": "0001_fact_checked_quotes_archive",
+      "breakpoints": true
     }
   ]
 }
