@@ -32,6 +32,7 @@ import { Route as FigureSlugRouteImport } from './routes/figure/$slug'
 import { Route as ApiPublicPingRouteImport } from './routes/api/public/ping'
 import { Route as ApiPublicPingoRouteImport } from './routes/api/public/pingo'
 import { Route as ApiPublicPiogRouteImport } from './routes/api/public/piog'
+import { Route as ApiPublicTestDeployRouteImport } from './routes/api/public/test-deploy'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -148,6 +149,11 @@ const ApiPublicPiogRoute = ApiPublicPiogRouteImport.update({
   path: '/api/public/piog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicTestDeployRoute = ApiPublicTestDeployRouteImport.update({
+  id: '/api/public/test-deploy',
+  path: '/api/public/test-deploy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/api/public/ping': typeof ApiPublicPingRoute
   '/api/public/pingo': typeof ApiPublicPingoRoute
   '/api/public/piog': typeof ApiPublicPiogRoute
+  '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/api/public/ping': typeof ApiPublicPingRoute
   '/api/public/pingo': typeof ApiPublicPingoRoute
   '/api/public/piog': typeof ApiPublicPiogRoute
+  '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/api/public/ping': typeof ApiPublicPingRoute
   '/api/public/pingo': typeof ApiPublicPingoRoute
   '/api/public/piog': typeof ApiPublicPiogRoute
+  '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/api/public/ping'
     | '/api/public/pingo'
     | '/api/public/piog'
+    | '/api/public/test-deploy'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/api/public/ping'
     | '/api/public/pingo'
     | '/api/public/piog'
+    | '/api/public/test-deploy'
   id:
     | '__root__'
     | '/'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/api/public/ping'
     | '/api/public/pingo'
     | '/api/public/piog'
+    | '/api/public/test-deploy'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -327,6 +339,7 @@ export interface RootRouteChildren {
   ApiPublicPingRoute: typeof ApiPublicPingRoute
   ApiPublicPingoRoute: typeof ApiPublicPingoRoute
   ApiPublicPiogRoute: typeof ApiPublicPiogRoute
+  ApiPublicTestDeployRoute: typeof ApiPublicTestDeployRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -492,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/test-deploy': {
+      id: '/api/public/test-deploy'
+      path: '/api/public/test-deploy'
+      fullPath: '/api/public/test-deploy'
+      preLoaderRoute: typeof ApiPublicTestDeployRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -519,6 +539,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPingRoute: ApiPublicPingRoute,
   ApiPublicPingoRoute: ApiPublicPingoRoute,
   ApiPublicPiogRoute: ApiPublicPiogRoute,
+  ApiPublicTestDeployRoute: ApiPublicTestDeployRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
