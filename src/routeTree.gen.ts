@@ -29,6 +29,7 @@ import { Route as RelationshipsRouteImport } from './routes/relationships'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as FigureSlugRouteImport } from './routes/figure/$slug'
+import { Route as ApiPublicPingRouteImport } from './routes/api/public/ping'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -130,6 +131,11 @@ const FigureSlugRoute = FigureSlugRouteImport.update({
   path: '/figure/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPingRoute = ApiPublicPingRouteImport.update({
+  id: '/api/public/ping',
+  path: '/api/public/ping',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
+  '/api/public/ping': typeof ApiPublicPingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -174,6 +181,7 @@ export interface FileRoutesByTo {
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
+  '/api/public/ping': typeof ApiPublicPingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -197,6 +205,7 @@ export interface FileRoutesById {
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
+  '/api/public/ping': typeof ApiPublicPingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -221,6 +230,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/search'
     | '/figure/$slug'
+    | '/api/public/ping'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -243,6 +253,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/search'
     | '/figure/$slug'
+    | '/api/public/ping'
   id:
     | '__root__'
     | '/'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/search'
     | '/figure/$slug'
+    | '/api/public/ping'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -288,6 +300,7 @@ export interface RootRouteChildren {
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
   FigureSlugRoute: typeof FigureSlugRoute
+  ApiPublicPingRoute: typeof ApiPublicPingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -432,6 +445,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FigureSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ping': {
+      id: '/api/public/ping'
+      path: '/api/public/ping'
+      fullPath: '/api/public/ping'
+      preLoaderRoute: typeof ApiPublicPingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -456,6 +476,7 @@ const rootRouteChildren: RootRouteChildren = {
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
   FigureSlugRoute: FigureSlugRoute,
+  ApiPublicPingRoute: ApiPublicPingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
