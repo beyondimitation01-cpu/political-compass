@@ -4,7 +4,7 @@ export const Route = createFileRoute("/api/public/test-deploy")({
   server: {
     handlers: {
       GET: async () =>
-        new Response("he", {
+        new Response("henna", {
           headers: { "Content-Type": "text/plain" },
         }),
     },
