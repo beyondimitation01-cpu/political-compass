@@ -14,6 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      figure_policy_records: {
+        Row: {
+          bill_or_policy: string | null
+          created_at: string
+          created_by: string | null
+          description: string
+          figure_name: string
+          figure_slug: string
+          id: string
+          legislative_body: string | null
+          policy_topic: string
+          position: string
+          published: boolean
+          record_type: string
+          recorded_at: string | null
+          source_publisher: string | null
+          source_title: string
+          source_url: string
+          updated_at: string
+          verification_notes: string
+          verification_status: string
+          vote: string | null
+        }
+        Insert: {
+          bill_or_policy?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          figure_name: string
+          figure_slug: string
+          id?: string
+          legislative_body?: string | null
+          policy_topic: string
+          position: string
+          published?: boolean
+          record_type?: string
+          recorded_at?: string | null
+          source_publisher?: string | null
+          source_title: string
+          source_url: string
+          updated_at?: string
+          verification_notes?: string
+          verification_status?: string
+          vote?: string | null
+        }
+        Update: {
+          bill_or_policy?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          figure_name?: string
+          figure_slug?: string
+          id?: string
+          legislative_body?: string | null
+          policy_topic?: string
+          position?: string
+          published?: boolean
+          record_type?: string
+          recorded_at?: string | null
+          source_publisher?: string | null
+          source_title?: string
+          source_url?: string
+          updated_at?: string
+          verification_notes?: string
+          verification_status?: string
+          vote?: string | null
+        }
+        Relationships: []
+      }
       figure_quotes: {
         Row: {
           context: string
@@ -72,6 +141,69 @@ export type Database = {
           topic_tags?: string[]
           updated_at?: string
           venue?: string | null
+          verification_notes?: string
+          verification_status?: string
+        }
+        Relationships: []
+      }
+      figure_relationships: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string
+          ended_at: string | null
+          from_figure_name: string
+          from_figure_slug: string
+          id: string
+          published: boolean
+          relationship_type: string
+          source_publisher: string | null
+          source_title: string
+          source_url: string
+          started_at: string | null
+          to_figure_name: string
+          to_figure_slug: string
+          updated_at: string
+          verification_notes: string
+          verification_status: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          ended_at?: string | null
+          from_figure_name: string
+          from_figure_slug: string
+          id?: string
+          published?: boolean
+          relationship_type: string
+          source_publisher?: string | null
+          source_title: string
+          source_url: string
+          started_at?: string | null
+          to_figure_name: string
+          to_figure_slug: string
+          updated_at?: string
+          verification_notes?: string
+          verification_status?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          ended_at?: string | null
+          from_figure_name?: string
+          from_figure_slug?: string
+          id?: string
+          published?: boolean
+          relationship_type?: string
+          source_publisher?: string | null
+          source_title?: string
+          source_url?: string
+          started_at?: string | null
+          to_figure_name?: string
+          to_figure_slug?: string
+          updated_at?: string
           verification_notes?: string
           verification_status?: string
         }
