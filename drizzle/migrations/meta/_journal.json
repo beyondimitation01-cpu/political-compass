@@ -15,6 +15,20 @@
       "when": 1791105784549,
       "tag": "0001_fact_checked_quotes_archive",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791312970346,
+      "tag": "0002_figure_policy_records",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791312975894,
+      "tag": "0003_figure_relationships",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,3 @@
--- Voting Record & Policy Positions Tracking
 create table if not exists public.figure_policy_records (
   id uuid primary key default gen_random_uuid(),
   figure_slug text not null,
@@ -39,12 +38,13 @@ alter table public.figure_policy_records enable row level security;
 revoke all on table public.figure_policy_records from anon, authenticated;
 grant select on table public.figure_policy_records to anon, authenticated;
 grant insert, update, delete on table public.figure_policy_records to authenticated;
+grant all on table public.figure_policy_records to service_role;
 create policy "Anyone can read published policy records" on public.figure_policy_records
-for select to anon, authenticated using (published = true or (select public.has_role('admin'::public.app_role, (select auth.uid()))));
+for select to anon, authenticated using (published = true or (select public.has_role((select auth.uid()), 'admin'::public.app_role)));
 create policy "Admins can insert policy records" on public.figure_policy_records
-for insert to authenticated with check ((select public.has_role('admin'::public.app_role, (select auth.uid()))));
+for insert to authenticated with check ((select public.has_role((select auth.uid()), 'admin'::public.app_role)));
 create policy "Admins can update policy records" on public.figure_policy_records
-for update to authenticated using ((select public.has_role('admin'::public.app_role, (select auth.uid()))))
-with check ((select public.has_role('admin'::public.app_role, (select auth.uid()))));
+for update to authenticated using ((select public.has_role((select auth.uid()), 'admin'::public.app_role)))
+with check ((select public.has_role((select auth.uid()), 'admin'::public.app_role)));
 create policy "Admins can delete policy records" on public.figure_policy_records
-for delete to authenticated using ((select public.has_role('admin'::public.app_role, (select auth.uid()))));
+for delete to authenticated using ((select public.has_role((select auth.uid()), 'admin'::public.app_role)));
