@@ -29,6 +29,7 @@ import { Route as RelationshipsRouteImport } from './routes/relationships'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as FigureSlugRouteImport } from './routes/figure/$slug'
+import { Route as ApiPublicDeployProbeRouteImport } from './routes/api/public/deploy-probe'
 import { Route as ApiPublicPingRouteImport } from './routes/api/public/ping'
 import { Route as ApiPublicPingoRouteImport } from './routes/api/public/pingo'
 import { Route as ApiPublicPiogRouteImport } from './routes/api/public/piog'
@@ -134,6 +135,11 @@ const FigureSlugRoute = FigureSlugRouteImport.update({
   path: '/figure/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicDeployProbeRoute = ApiPublicDeployProbeRouteImport.update({
+  id: '/api/public/deploy-probe',
+  path: '/api/public/deploy-probe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPingRoute = ApiPublicPingRouteImport.update({
   id: '/api/public/ping',
   path: '/api/public/ping',
@@ -176,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
+  '/api/public/deploy-probe': typeof ApiPublicDeployProbeRoute
   '/api/public/ping': typeof ApiPublicPingRoute
   '/api/public/pingo': typeof ApiPublicPingoRoute
   '/api/public/piog': typeof ApiPublicPiogRoute
@@ -202,6 +209,7 @@ export interface FileRoutesByTo {
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
+  '/api/public/deploy-probe': typeof ApiPublicDeployProbeRoute
   '/api/public/ping': typeof ApiPublicPingRoute
   '/api/public/pingo': typeof ApiPublicPingoRoute
   '/api/public/piog': typeof ApiPublicPiogRoute
@@ -229,6 +237,7 @@ export interface FileRoutesById {
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
+  '/api/public/deploy-probe': typeof ApiPublicDeployProbeRoute
   '/api/public/ping': typeof ApiPublicPingRoute
   '/api/public/pingo': typeof ApiPublicPingoRoute
   '/api/public/piog': typeof ApiPublicPiogRoute
@@ -257,6 +266,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/search'
     | '/figure/$slug'
+    | '/api/public/deploy-probe'
     | '/api/public/ping'
     | '/api/public/pingo'
     | '/api/public/piog'
@@ -283,6 +293,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/search'
     | '/figure/$slug'
+    | '/api/public/deploy-probe'
     | '/api/public/ping'
     | '/api/public/pingo'
     | '/api/public/piog'
@@ -309,6 +320,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/search'
     | '/figure/$slug'
+    | '/api/public/deploy-probe'
     | '/api/public/ping'
     | '/api/public/pingo'
     | '/api/public/piog'
@@ -336,6 +348,7 @@ export interface RootRouteChildren {
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
   FigureSlugRoute: typeof FigureSlugRoute
+  ApiPublicDeployProbeRoute: typeof ApiPublicDeployProbeRoute
   ApiPublicPingRoute: typeof ApiPublicPingRoute
   ApiPublicPingoRoute: typeof ApiPublicPingoRoute
   ApiPublicPiogRoute: typeof ApiPublicPiogRoute
@@ -484,6 +497,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FigureSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/deploy-probe': {
+      id: '/api/public/deploy-probe'
+      path: '/api/public/deploy-probe'
+      fullPath: '/api/public/deploy-probe'
+      preLoaderRoute: typeof ApiPublicDeployProbeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/ping': {
       id: '/api/public/ping'
       path: '/api/public/ping'
@@ -536,6 +556,7 @@ const rootRouteChildren: RootRouteChildren = {
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
   FigureSlugRoute: FigureSlugRoute,
+  ApiPublicDeployProbeRoute: ApiPublicDeployProbeRoute,
   ApiPublicPingRoute: ApiPublicPingRoute,
   ApiPublicPingoRoute: ApiPublicPingoRoute,
   ApiPublicPiogRoute: ApiPublicPiogRoute,
