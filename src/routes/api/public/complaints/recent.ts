@@ -22,7 +22,15 @@ export const Route = createFileRoute("/api/public/complaints/recent")({
             );
           }
 
-          return Response.json({ ok: true, complaints: data ?? [] });
+          return Response.json({
+            ok: true,
+            complaints: (data ?? []).map((complaint: any) => ({
+              id: complaint.id,
+              name: complaint.name,
+              message: complaint.message,
+              createdAt: complaint.created_at,
+            })),
+          });
         } catch (error) {
           console.error("Recent complaints lookup failed", error);
           return Response.json(
