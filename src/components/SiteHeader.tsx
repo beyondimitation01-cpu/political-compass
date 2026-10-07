@@ -26,6 +26,7 @@ const primaryNav = [
   { to: "/compare", label: "Compare" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
+  { to: "/complaints", label: "Complaints" },
 ] as const;
 
 export function SiteHeader() {
