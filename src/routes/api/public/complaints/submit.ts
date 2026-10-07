@@ -1,8 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { db } from "@/lib/db";
-import { complaints } from "../../../../../drizzle/schema";
-
 export const Route = createFileRoute("/api/public/complaints/submit")({
   server: {
     handlers: {
@@ -19,16 +16,55 @@ export const Route = createFileRoute("/api/public/complaints/submit")({
           const message =
             typeof body.message === "string" ? body.message.trim() : "";
 
-          if (!name) return Response.json({ ok: false, error: "Name is required" }, { status: 400 });
-          if (!email) return Response.json({ ok: false, error: "Email is required" }, { status: 400 });
-          if (!email.includes("@")) return Response.json({ ok: false, error: "Email must contain @" }, { status: 400 });
-          if (!message) return Response.json({ ok: false, error: "Message is required" }, { status: 400 });
+          if (!name) {
+            return Response.json(
+              { ok: false, error: "Name is required" },
+              { status: 400 },
+            );
+          }
+          if (!email) {
+            return Response.json(
+              { ok: false, error: "Email is required" },
+              { status: 400 },
+            );
+          }
+          if (!email.includes("@")) {
+            return Response.json(
+              { ok: false, error: "Email must contain @" },
+              { status: 400 },
+            );
+          }
+          if (!message) {
+            return Response.json(
+              { ok: false, error: "Message is required" },
+              { status: 400 },
+            );
+          }
 
-          const [row] = await db.insert(complaints).values({ name, email, message }).returning({ id: complaints.id });
-          return Response.json({ ok: true, id: row.id });
+          const { supabaseAdmin } = await import(
+            "@/integrations/supabase/client.server"
+          );
+          const { data, error } = await (supabaseAdmin as any)
+            .from("complaints")
+            .insert({ name, email, message })
+            .select("id")
+            .single();
+
+          if (error || !data?.id) {
+            console.error("Complaint submission failed", error);
+            return Response.json(
+              { ok: false, error: "Unable to submit complaint" },
+              { status: 500 },
+            );
+          }
+
+          return Response.json({ ok: true, id: data.id });
         } catch (error) {
           console.error("Complaint submission failed", error);
-          return Response.json({ ok: false, error: "Unable to submit complaint" }, { status: 500 });
+          return Response.json(
+            { ok: false, error: "Unable to submit complaint" },
+            { status: 500 },
+          );
         }
       },
     },
