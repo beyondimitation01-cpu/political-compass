@@ -1,1 +1,4 @@
 project_id = "uwpzukhwegfkfgomczdf"
+
+[functions.political-figure-analysis]
+verify_jwt = false
