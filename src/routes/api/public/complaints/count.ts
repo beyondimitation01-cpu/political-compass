@@ -1,19 +1,32 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { count } from "drizzle-orm";
-
-import { db } from "@/lib/db";
-import { complaints } from "../../../../../drizzle/schema";
 
 export const Route = createFileRoute("/api/public/complaints/count")({
   server: {
     handlers: {
       GET: async () => {
         try {
-          const [result] = await db.select({ count: count() }).from(complaints);
-          return Response.json({ ok: true, count: result.count });
+          const { supabaseAdmin } = await import(
+            "@/integrations/supabase/client.server"
+          );
+          const { count, error } = await (supabaseAdmin as any)
+            .from("complaints")
+            .select("id", { count: "exact", head: true });
+
+          if (error) {
+            console.error("Complaint count failed", error);
+            return Response.json(
+              { ok: false, error: "Unable to read complaint count" },
+              { status: 500 },
+            );
+          }
+
+          return Response.json({ ok: true, count: count ?? 0 });
         } catch (error) {
           console.error("Complaint count failed", error);
-          return Response.json({ ok: false, error: "Unable to read complaint count" }, { status: 500 });
+          return Response.json(
+            { ok: false, error: "Unable to read complaint count" },
+            { status: 500 },
+          );
         }
       },
     },
