@@ -1,26 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { desc } from "drizzle-orm";
-
-import { db } from "@/lib/db";
-import { complaints } from "../../../../../drizzle/schema";
 
 export const Route = createFileRoute("/api/public/complaints/recent")({
   server: {
     handlers: {
       GET: async () => {
         try {
-          const rows = await db
-            .select({
-              id: complaints.id,
-              name: complaints.name,
-              message: complaints.message,
-              createdAt: complaints.createdAt,
-            })
-            .from(complaints)
-            .orderBy(desc(complaints.createdAt))
+          const { supabaseAdmin } = await import(
+            "@/integrations/supabase/client.server"
+          );
+          const { data, error } = await (supabaseAdmin as any)
+            .from("complaints")
+            .select("id,name,message,created_at")
+            .order("created_at", { ascending: false })
             .limit(20);
 
-          return Response.json({ ok: true, complaints: rows });
+          if (error) {
+            console.error("Recent complaints lookup failed", error);
+            return Response.json(
+              { ok: false, error: "Unable to load recent complaints" },
+              { status: 500 },
+            );
+          }
+
+          return Response.json({ ok: true, complaints: data ?? [] });
         } catch (error) {
           console.error("Recent complaints lookup failed", error);
           return Response.json(
