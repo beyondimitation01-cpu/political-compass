@@ -15,8 +15,17 @@ export const Route = createFileRoute("/complaints")({
 
 function ComplaintsPage() {
   const [count, setCount] = useState<number | null>(null);
+  const [recent, setRecent] = useState<Array<{ id: string; name: string; message: string; createdAt: string }>>([]);
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    void fetch("/api/public/complaints/recent")
+      .then(async (response) => {
+        const data = (await response.json()) as { ok?: boolean; complaints?: Array<{ id: string; name: string; message: string; createdAt: string }> };
+        if (response.ok && data.ok) setRecent(data.complaints ?? []);
+      })
+      .catch(() => undefined);
 
   useEffect(() => {
     void fetch("/api/public/complaints/count")
@@ -85,6 +94,24 @@ function ComplaintsPage() {
           <p className="mt-3 font-display text-4xl font-semibold text-foreground">{count === null ? "…" : count}</p>
           <p className="mt-2 text-sm text-muted-foreground">Total complaints: {count === null ? "…" : count}</p>
         </aside>
+        {recent.length > 0 && (
+          <section className="mt-10">
+            <h2 className="eyebrow text-muted-foreground">Recent complaints</h2>
+            <div className="mt-4 space-y-3">
+              {recent.map((complaint) => (
+                <article key={complaint.id} className="rounded-md border border-border bg-card p-5">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h3 className="font-semibold text-foreground">{complaint.name}</h3>
+                    <time className="text-xs text-muted-foreground" dateTime={complaint.createdAt}>
+                      {new Date(complaint.createdAt).toLocaleString()}
+                    </time>
+                  </div>
+                  <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-foreground/85">{complaint.message}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </PageShell>
   );
