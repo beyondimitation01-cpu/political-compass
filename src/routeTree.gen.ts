@@ -43,6 +43,7 @@ import { Route as ApiPublicComplaintsSubmitRouteImport } from './routes/api/publ
 import { Route as ApiPublicFeedbackCountRouteImport } from './routes/api/public/feedback/count'
 import { Route as ApiPublicFeedbackSubmitRouteImport } from './routes/api/public/feedback/submit'
 import { Route as ApiPublicOpsRunMigrationsRouteImport } from './routes/api/public/ops/run-migrations'
+import { Route as ApiPublicOpsSeedMigrationsRouteImport } from './routes/api/public/ops/seed-migrations'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -218,6 +219,12 @@ const ApiPublicOpsRunMigrationsRoute =
     path: '/api/public/ops/run-migrations',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicOpsSeedMigrationsRoute =
+  ApiPublicOpsSeedMigrationsRouteImport.update({
+    id: '/api/public/ops/seed-migrations',
+    path: '/api/public/ops/seed-migrations',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -254,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/api/public/feedback/count': typeof ApiPublicFeedbackCountRoute
   '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
   '/api/public/ops/run-migrations': typeof ApiPublicOpsRunMigrationsRoute
+  '/api/public/ops/seed-migrations': typeof ApiPublicOpsSeedMigrationsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -437,6 +445,7 @@ export interface FileRouteTypes {
     | '/api/public/feedback/count'
     | '/api/public/feedback/submit'
     | '/api/public/ops/run-migrations'
+    | '/api/public/ops/seed-migrations'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -474,6 +483,7 @@ export interface RootRouteChildren {
   ApiPublicFeedbackCountRoute: typeof ApiPublicFeedbackCountRoute
   ApiPublicFeedbackSubmitRoute: typeof ApiPublicFeedbackSubmitRoute
   ApiPublicOpsRunMigrationsRoute: typeof ApiPublicOpsRunMigrationsRoute
+  ApiPublicOpsSeedMigrationsRoute: typeof ApiPublicOpsSeedMigrationsRoute
 }
 
 declare module '@tanstack/react-router' {
