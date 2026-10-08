@@ -14,6 +14,21 @@ export type Database = {
   }
   public: {
     Tables: {
+      _migrations_applied: {
+        Row: {
+          applied_at: string
+          id: string
+        }
+        Insert: {
+          applied_at?: string
+          id: string
+        }
+        Update: {
+          applied_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
       complaints: {
         Row: {
           created_at: string
