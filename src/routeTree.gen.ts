@@ -324,6 +324,7 @@ export interface FileRoutesById {
   '/api/public/complaints/submit': typeof ApiPublicComplaintsSubmitRoute
   '/api/public/feedback/count': typeof ApiPublicFeedbackCountRoute
   '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
+  '/api/public/ops/run-migrations': typeof ApiPublicOpsRunMigrationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
