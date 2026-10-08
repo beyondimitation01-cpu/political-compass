@@ -14,10 +14,11 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CompareRouteImport } from './routes/compare'
+import { Route as ComplaintsRouteImport } from './routes/complaints'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as CountriesRouteImport } from './routes/countries'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as LeadersRouteImport } from './routes/leaders'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as NotificationsRouteImport } from './routes/notifications'
@@ -30,12 +31,16 @@ import { Route as RelationshipsRouteImport } from './routes/relationships'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as FigureSlugRouteImport } from './routes/figure/$slug'
-import { Route as ApiPublicFeedbackSubmitRouteImport } from './routes/api/public/feedback/submit'
 import { Route as ApiPublicDeployProbeRouteImport } from './routes/api/public/deploy-probe'
+import { Route as ApiPublicExtensionProofRouteImport } from './routes/api/public/extension-proof'
 import { Route as ApiPublicPingRouteImport } from './routes/api/public/ping'
 import { Route as ApiPublicPingoRouteImport } from './routes/api/public/pingo'
 import { Route as ApiPublicPiogRouteImport } from './routes/api/public/piog'
 import { Route as ApiPublicTestDeployRouteImport } from './routes/api/public/test-deploy'
+import { Route as ApiPublicComplaintsCountRouteImport } from './routes/api/public/complaints/count'
+import { Route as ApiPublicComplaintsRecentRouteImport } from './routes/api/public/complaints/recent'
+import { Route as ApiPublicComplaintsSubmitRouteImport } from './routes/api/public/complaints/submit'
+import { Route as ApiPublicFeedbackSubmitRouteImport } from './routes/api/public/feedback/submit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -62,14 +67,14 @@ const CompareRoute = CompareRouteImport.update({
   path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComplaintsRoute = ComplaintsRouteImport.update({
+  id: '/complaints',
+  path: '/complaints',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FeedbackRoute = FeedbackRouteImport.update({
-  id: '/feedback',
-  path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CountriesRoute = CountriesRouteImport.update({
@@ -80,6 +85,11 @@ const CountriesRoute = CountriesRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LeadersRoute = LeadersRouteImport.update({
@@ -142,14 +152,14 @@ const FigureSlugRoute = FigureSlugRouteImport.update({
   path: '/figure/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicFeedbackSubmitRoute = ApiPublicFeedbackSubmitRouteImport.update({
-  id: '/api/public/feedback/submit',
-  path: '/api/public/feedback/submit',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicDeployProbeRoute = ApiPublicDeployProbeRouteImport.update({
   id: '/api/public/deploy-probe',
   path: '/api/public/deploy-probe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicExtensionProofRoute = ApiPublicExtensionProofRouteImport.update({
+  id: '/api/public/extension-proof',
+  path: '/api/public/extension-proof',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicPingRoute = ApiPublicPingRouteImport.update({
@@ -172,18 +182,41 @@ const ApiPublicTestDeployRoute = ApiPublicTestDeployRouteImport.update({
   path: '/api/public/test-deploy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicComplaintsCountRoute =
+  ApiPublicComplaintsCountRouteImport.update({
+    id: '/api/public/complaints/count',
+    path: '/api/public/complaints/count',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicComplaintsRecentRoute =
+  ApiPublicComplaintsRecentRouteImport.update({
+    id: '/api/public/complaints/recent',
+    path: '/api/public/complaints/recent',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicComplaintsSubmitRoute =
+  ApiPublicComplaintsSubmitRouteImport.update({
+    id: '/api/public/complaints/submit',
+    path: '/api/public/complaints/submit',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicFeedbackSubmitRoute = ApiPublicFeedbackSubmitRouteImport.update({
+  id: '/api/public/feedback/submit',
+  path: '/api/public/feedback/submit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
-  '/feedback': typeof FeedbackRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/compare': typeof CompareRoute
+  '/complaints': typeof ComplaintsRoute
   '/contact': typeof ContactRoute
   '/countries': typeof CountriesRoute
   '/dashboard': typeof DashboardRoute
+  '/feedback': typeof FeedbackRoute
   '/leaders': typeof LeadersRoute
   '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
@@ -197,22 +230,27 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
   '/api/public/deploy-probe': typeof ApiPublicDeployProbeRoute
+  '/api/public/extension-proof': typeof ApiPublicExtensionProofRoute
   '/api/public/ping': typeof ApiPublicPingRoute
   '/api/public/pingo': typeof ApiPublicPingoRoute
   '/api/public/piog': typeof ApiPublicPiogRoute
   '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
+  '/api/public/complaints/count': typeof ApiPublicComplaintsCountRoute
+  '/api/public/complaints/recent': typeof ApiPublicComplaintsRecentRoute
+  '/api/public/complaints/submit': typeof ApiPublicComplaintsSubmitRoute
+  '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
 }
 export interface FileRoutesByTo {
-  '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
-  '/feedback': typeof FeedbackRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/compare': typeof CompareRoute
+  '/complaints': typeof ComplaintsRoute
   '/contact': typeof ContactRoute
   '/countries': typeof CountriesRoute
   '/dashboard': typeof DashboardRoute
+  '/feedback': typeof FeedbackRoute
   '/leaders': typeof LeadersRoute
   '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
@@ -226,23 +264,28 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
   '/api/public/deploy-probe': typeof ApiPublicDeployProbeRoute
+  '/api/public/extension-proof': typeof ApiPublicExtensionProofRoute
   '/api/public/ping': typeof ApiPublicPingRoute
   '/api/public/pingo': typeof ApiPublicPingoRoute
   '/api/public/piog': typeof ApiPublicPiogRoute
   '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
+  '/api/public/complaints/count': typeof ApiPublicComplaintsCountRoute
+  '/api/public/complaints/recent': typeof ApiPublicComplaintsRecentRoute
+  '/api/public/complaints/submit': typeof ApiPublicComplaintsSubmitRoute
+  '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
 }
 export interface FileRoutesById {
-  '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
-  '/feedback': typeof FeedbackRoute
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/compare': typeof CompareRoute
+  '/complaints': typeof ComplaintsRoute
   '/contact': typeof ContactRoute
   '/countries': typeof CountriesRoute
   '/dashboard': typeof DashboardRoute
+  '/feedback': typeof FeedbackRoute
   '/leaders': typeof LeadersRoute
   '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
@@ -256,10 +299,15 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/figure/$slug': typeof FigureSlugRoute
   '/api/public/deploy-probe': typeof ApiPublicDeployProbeRoute
+  '/api/public/extension-proof': typeof ApiPublicExtensionProofRoute
   '/api/public/ping': typeof ApiPublicPingRoute
   '/api/public/pingo': typeof ApiPublicPingoRoute
   '/api/public/piog': typeof ApiPublicPiogRoute
   '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
+  '/api/public/complaints/count': typeof ApiPublicComplaintsCountRoute
+  '/api/public/complaints/recent': typeof ApiPublicComplaintsRecentRoute
+  '/api/public/complaints/submit': typeof ApiPublicComplaintsSubmitRoute
+  '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -269,10 +317,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/compare'
+    | '/complaints'
     | '/contact'
-    | '/feedback'
     | '/countries'
     | '/dashboard'
+    | '/feedback'
     | '/leaders'
     | '/news'
     | '/notifications'
@@ -285,12 +334,16 @@ export interface FileRouteTypes {
     | '/saved'
     | '/search'
     | '/figure/$slug'
-    | '/api/public/feedback/submit'
     | '/api/public/deploy-probe'
+    | '/api/public/extension-proof'
     | '/api/public/ping'
     | '/api/public/pingo'
     | '/api/public/piog'
     | '/api/public/test-deploy'
+    | '/api/public/complaints/count'
+    | '/api/public/complaints/recent'
+    | '/api/public/complaints/submit'
+    | '/api/public/feedback/submit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -298,9 +351,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/compare'
+    | '/complaints'
     | '/contact'
     | '/countries'
     | '/dashboard'
+    | '/feedback'
     | '/leaders'
     | '/news'
     | '/notifications'
@@ -314,10 +369,15 @@ export interface FileRouteTypes {
     | '/search'
     | '/figure/$slug'
     | '/api/public/deploy-probe'
+    | '/api/public/extension-proof'
     | '/api/public/ping'
     | '/api/public/pingo'
     | '/api/public/piog'
     | '/api/public/test-deploy'
+    | '/api/public/complaints/count'
+    | '/api/public/complaints/recent'
+    | '/api/public/complaints/submit'
+    | '/api/public/feedback/submit'
   id:
     | '__root__'
     | '/'
@@ -325,9 +385,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/compare'
+    | '/complaints'
     | '/contact'
     | '/countries'
     | '/dashboard'
+    | '/feedback'
     | '/leaders'
     | '/news'
     | '/notifications'
@@ -341,10 +403,15 @@ export interface FileRouteTypes {
     | '/search'
     | '/figure/$slug'
     | '/api/public/deploy-probe'
+    | '/api/public/extension-proof'
     | '/api/public/ping'
     | '/api/public/pingo'
     | '/api/public/piog'
     | '/api/public/test-deploy'
+    | '/api/public/complaints/count'
+    | '/api/public/complaints/recent'
+    | '/api/public/complaints/submit'
+    | '/api/public/feedback/submit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -353,10 +420,11 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
   CompareRoute: typeof CompareRoute
+  ComplaintsRoute: typeof ComplaintsRoute
   ContactRoute: typeof ContactRoute
-  FeedbackRoute: typeof FeedbackRoute
   CountriesRoute: typeof CountriesRoute
   DashboardRoute: typeof DashboardRoute
+  FeedbackRoute: typeof FeedbackRoute
   LeadersRoute: typeof LeadersRoute
   NewsRoute: typeof NewsRoute
   NotificationsRoute: typeof NotificationsRoute
@@ -369,12 +437,16 @@ export interface RootRouteChildren {
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
   FigureSlugRoute: typeof FigureSlugRoute
-  ApiPublicFeedbackSubmitRoute: typeof ApiPublicFeedbackSubmitRoute
   ApiPublicDeployProbeRoute: typeof ApiPublicDeployProbeRoute
+  ApiPublicExtensionProofRoute: typeof ApiPublicExtensionProofRoute
   ApiPublicPingRoute: typeof ApiPublicPingRoute
   ApiPublicPingoRoute: typeof ApiPublicPingoRoute
   ApiPublicPiogRoute: typeof ApiPublicPiogRoute
   ApiPublicTestDeployRoute: typeof ApiPublicTestDeployRoute
+  ApiPublicComplaintsCountRoute: typeof ApiPublicComplaintsCountRoute
+  ApiPublicComplaintsRecentRoute: typeof ApiPublicComplaintsRecentRoute
+  ApiPublicComplaintsSubmitRoute: typeof ApiPublicComplaintsSubmitRoute
+  ApiPublicFeedbackSubmitRoute: typeof ApiPublicFeedbackSubmitRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -414,18 +486,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/complaints': {
+      id: '/complaints'
+      path: '/complaints'
+      fullPath: '/complaints'
+      preLoaderRoute: typeof ComplaintsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/feedback': {
-      id: '/feedback'
-      path: '/feedback'
-      fullPath: '/feedback'
-      preLoaderRoute: typeof FeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/countries': {
@@ -440,6 +512,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/leaders': {
@@ -526,18 +605,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FigureSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/feedback/submit': {
-      id: '/api/public/feedback/submit'
-      path: '/api/public/feedback/submit'
-      fullPath: '/api/public/feedback/submit'
-      preLoaderRoute: typeof ApiPublicFeedbackSubmitRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/deploy-probe': {
       id: '/api/public/deploy-probe'
       path: '/api/public/deploy-probe'
       fullPath: '/api/public/deploy-probe'
       preLoaderRoute: typeof ApiPublicDeployProbeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/extension-proof': {
+      id: '/api/public/extension-proof'
+      path: '/api/public/extension-proof'
+      fullPath: '/api/public/extension-proof'
+      preLoaderRoute: typeof ApiPublicExtensionProofRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/ping': {
@@ -568,6 +647,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicTestDeployRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/complaints/count': {
+      id: '/api/public/complaints/count'
+      path: '/api/public/complaints/count'
+      fullPath: '/api/public/complaints/count'
+      preLoaderRoute: typeof ApiPublicComplaintsCountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/complaints/recent': {
+      id: '/api/public/complaints/recent'
+      path: '/api/public/complaints/recent'
+      fullPath: '/api/public/complaints/recent'
+      preLoaderRoute: typeof ApiPublicComplaintsRecentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/complaints/submit': {
+      id: '/api/public/complaints/submit'
+      path: '/api/public/complaints/submit'
+      fullPath: '/api/public/complaints/submit'
+      preLoaderRoute: typeof ApiPublicComplaintsSubmitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/feedback/submit': {
+      id: '/api/public/feedback/submit'
+      path: '/api/public/feedback/submit'
+      fullPath: '/api/public/feedback/submit'
+      preLoaderRoute: typeof ApiPublicFeedbackSubmitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -577,10 +684,11 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
   CompareRoute: CompareRoute,
+  ComplaintsRoute: ComplaintsRoute,
   ContactRoute: ContactRoute,
-  FeedbackRoute: FeedbackRoute,
   CountriesRoute: CountriesRoute,
   DashboardRoute: DashboardRoute,
+  FeedbackRoute: FeedbackRoute,
   LeadersRoute: LeadersRoute,
   NewsRoute: NewsRoute,
   NotificationsRoute: NotificationsRoute,
@@ -593,12 +701,16 @@ const rootRouteChildren: RootRouteChildren = {
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
   FigureSlugRoute: FigureSlugRoute,
-  ApiPublicFeedbackSubmitRoute: ApiPublicFeedbackSubmitRoute,
   ApiPublicDeployProbeRoute: ApiPublicDeployProbeRoute,
+  ApiPublicExtensionProofRoute: ApiPublicExtensionProofRoute,
   ApiPublicPingRoute: ApiPublicPingRoute,
   ApiPublicPingoRoute: ApiPublicPingoRoute,
   ApiPublicPiogRoute: ApiPublicPiogRoute,
   ApiPublicTestDeployRoute: ApiPublicTestDeployRoute,
+  ApiPublicComplaintsCountRoute: ApiPublicComplaintsCountRoute,
+  ApiPublicComplaintsRecentRoute: ApiPublicComplaintsRecentRoute,
+  ApiPublicComplaintsSubmitRoute: ApiPublicComplaintsSubmitRoute,
+  ApiPublicFeedbackSubmitRoute: ApiPublicFeedbackSubmitRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
