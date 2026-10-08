@@ -30,6 +30,7 @@ import { Route as RelationshipsRouteImport } from './routes/relationships'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as FigureSlugRouteImport } from './routes/figure/$slug'
+import { Route as ApiPublicFeedbackSubmitRouteImport } from './routes/api/public/feedback/submit'
 import { Route as ApiPublicDeployProbeRouteImport } from './routes/api/public/deploy-probe'
 import { Route as ApiPublicPingRouteImport } from './routes/api/public/ping'
 import { Route as ApiPublicPingoRouteImport } from './routes/api/public/pingo'
@@ -141,6 +142,11 @@ const FigureSlugRoute = FigureSlugRouteImport.update({
   path: '/figure/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicFeedbackSubmitRoute = ApiPublicFeedbackSubmitRouteImport.update({
+  id: '/api/public/feedback/submit',
+  path: '/api/public/feedback/submit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicDeployProbeRoute = ApiPublicDeployProbeRouteImport.update({
   id: '/api/public/deploy-probe',
   path: '/api/public/deploy-probe',
@@ -168,6 +174,7 @@ const ApiPublicTestDeployRoute = ApiPublicTestDeployRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
   '/feedback': typeof FeedbackRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
@@ -196,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
 }
 export interface FileRoutesByTo {
+  '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
   '/feedback': typeof FeedbackRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
@@ -224,6 +232,7 @@ export interface FileRoutesByTo {
   '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
 }
 export interface FileRoutesById {
+  '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
   '/feedback': typeof FeedbackRoute
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
@@ -276,6 +285,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/search'
     | '/figure/$slug'
+    | '/api/public/feedback/submit'
     | '/api/public/deploy-probe'
     | '/api/public/ping'
     | '/api/public/pingo'
@@ -359,6 +369,7 @@ export interface RootRouteChildren {
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
   FigureSlugRoute: typeof FigureSlugRoute
+  ApiPublicFeedbackSubmitRoute: typeof ApiPublicFeedbackSubmitRoute
   ApiPublicDeployProbeRoute: typeof ApiPublicDeployProbeRoute
   ApiPublicPingRoute: typeof ApiPublicPingRoute
   ApiPublicPingoRoute: typeof ApiPublicPingoRoute
@@ -515,6 +526,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FigureSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/feedback/submit': {
+      id: '/api/public/feedback/submit'
+      path: '/api/public/feedback/submit'
+      fullPath: '/api/public/feedback/submit'
+      preLoaderRoute: typeof ApiPublicFeedbackSubmitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/deploy-probe': {
       id: '/api/public/deploy-probe'
       path: '/api/public/deploy-probe'
@@ -575,6 +593,7 @@ const rootRouteChildren: RootRouteChildren = {
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
   FigureSlugRoute: FigureSlugRoute,
+  ApiPublicFeedbackSubmitRoute: ApiPublicFeedbackSubmitRoute,
   ApiPublicDeployProbeRoute: ApiPublicDeployProbeRoute,
   ApiPublicPingRoute: ApiPublicPingRoute,
   ApiPublicPingoRoute: ApiPublicPingoRoute,
