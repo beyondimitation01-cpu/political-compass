@@ -16,7 +16,7 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
       GET: async ({ request }) => {
         const url = new URL(request.url);
         const key = url.searchParams.get("key");
-        const expected = process.env.MIGRATION_RUNNER_KEY;
+        const expected = process.env["MIGRATION_RUNNER_KEY"];
 
         if (!expected || !key || key !== expected) {
           return Response.json(
@@ -51,7 +51,7 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
 
           for (const file of files) {
             const { data: existing, error: lookupErr } = await supabaseAdmin
-              .from("_migrations_applied")
+              .from("_migrations_applied" as never)
               .select("id")
               .eq("id", file)
               .maybeSingle();
@@ -88,13 +88,13 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
               );
             }
 
-            if (data && typeof data === "object" && "ok" in data && data.ok === false) {
+            if (data && typeof data === "object" && "ok" in data && data["ok"] === false) {
               return Response.json(
                 {
                   ok: false,
                   error:
-                    "error" in data && typeof data.error === "string"
-                      ? data.error
+                    "error" in data && typeof data["error"] === "string"
+                      ? data["error"]
                       : "unknown sql error",
                   failed_at: file,
                 },
@@ -103,8 +103,8 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
             }
 
             const { error: recordErr } = await supabaseAdmin
-              .from("_migrations_applied")
-              .insert({ id: file });
+              .from("_migrations_applied" as never)
+              .insert({ id: file } as never);
 
             if (recordErr) {
               return Response.json(
