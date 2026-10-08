@@ -209,36 +209,6 @@ export type Database = {
         }
         Relationships: []
       }
-      feedback: {
-        Row: {
-          category: string
-          created_at: string
-          email: string | null
-          id: string
-          message: string
-          name: string | null
-          rating: number
-        }
-        Insert: {
-          category: string
-          created_at?: string
-          email?: string | null
-          id?: string
-          message: string
-          name?: string | null
-          rating: number
-        }
-        Update: {
-          category?: string
-          created_at?: string
-          email?: string | null
-          id?: string
-          message?: string
-          name?: string | null
-          rating?: number
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           created_at: string
