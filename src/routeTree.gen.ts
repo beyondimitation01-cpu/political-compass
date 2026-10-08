@@ -281,6 +281,7 @@ export interface FileRoutesByTo {
   '/api/public/complaints/submit': typeof ApiPublicComplaintsSubmitRoute
   '/api/public/feedback/count': typeof ApiPublicFeedbackCountRoute
   '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
+  '/api/public/ops/run-migrations': typeof ApiPublicOpsRunMigrationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
