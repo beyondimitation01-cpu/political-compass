@@ -361,6 +361,7 @@ export interface FileRouteTypes {
     | '/api/public/complaints/submit'
     | '/api/public/feedback/count'
     | '/api/public/feedback/submit'
+    | '/api/public/ops/run-migrations'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -396,6 +397,7 @@ export interface FileRouteTypes {
     | '/api/public/complaints/submit'
     | '/api/public/feedback/count'
     | '/api/public/feedback/submit'
+    | '/api/public/ops/run-migrations'
   id:
     | '__root__'
     | '/'
@@ -431,6 +433,7 @@ export interface FileRouteTypes {
     | '/api/public/complaints/submit'
     | '/api/public/feedback/count'
     | '/api/public/feedback/submit'
+    | '/api/public/ops/run-migrations'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -701,7 +704,8 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/public/feedback/submit'
       preLoaderRoute: typeof ApiPublicFeedbackSubmitRouteImport
       parentRoute: typeof rootRouteImport
-    }    '/api/public/ops/run-migrations': {
+    }
+    '/api/public/ops/run-migrations': {
       id: '/api/public/ops/run-migrations'
       path: '/api/public/ops/run-migrations'
       fullPath: '/api/public/ops/run-migrations'
