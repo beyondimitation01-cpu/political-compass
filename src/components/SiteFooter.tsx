@@ -36,6 +36,7 @@ export function SiteFooter() {
             links={[
               { to: "/about", label: "About" },
               { to: "/contact", label: "Contact" },
+              { to: "/feedback", label: "Feedback" },
             ]}
           />
         </div>

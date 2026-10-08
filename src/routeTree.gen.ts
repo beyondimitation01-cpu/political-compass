@@ -15,6 +15,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as CountriesRouteImport } from './routes/countries'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LeadersRouteImport } from './routes/leaders'
@@ -63,6 +64,11 @@ const CompareRoute = CompareRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CountriesRoute = CountriesRouteImport.update({
@@ -162,6 +168,7 @@ const ApiPublicTestDeployRoute = ApiPublicTestDeployRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/feedback': typeof FeedbackRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
@@ -189,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
 }
 export interface FileRoutesByTo {
+  '/feedback': typeof FeedbackRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
@@ -216,6 +224,7 @@ export interface FileRoutesByTo {
   '/api/public/test-deploy': typeof ApiPublicTestDeployRoute
 }
 export interface FileRoutesById {
+  '/feedback': typeof FeedbackRoute
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
@@ -252,6 +261,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/compare'
     | '/contact'
+    | '/feedback'
     | '/countries'
     | '/dashboard'
     | '/leaders'
@@ -334,6 +344,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CompareRoute: typeof CompareRoute
   ContactRoute: typeof ContactRoute
+  FeedbackRoute: typeof FeedbackRoute
   CountriesRoute: typeof CountriesRoute
   DashboardRoute: typeof DashboardRoute
   LeadersRoute: typeof LeadersRoute
@@ -397,6 +408,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/countries': {
@@ -542,6 +560,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CompareRoute: CompareRoute,
   ContactRoute: ContactRoute,
+  FeedbackRoute: FeedbackRoute,
   CountriesRoute: CountriesRoute,
   DashboardRoute: DashboardRoute,
   LeadersRoute: LeadersRoute,
