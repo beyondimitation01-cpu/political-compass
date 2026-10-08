@@ -40,6 +40,7 @@ import { Route as ApiPublicTestDeployRouteImport } from './routes/api/public/tes
 import { Route as ApiPublicComplaintsCountRouteImport } from './routes/api/public/complaints/count'
 import { Route as ApiPublicComplaintsRecentRouteImport } from './routes/api/public/complaints/recent'
 import { Route as ApiPublicComplaintsSubmitRouteImport } from './routes/api/public/complaints/submit'
+import { Route as ApiPublicFeedbackCountRouteImport } from './routes/api/public/feedback/count'
 import { Route as ApiPublicFeedbackSubmitRouteImport } from './routes/api/public/feedback/submit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -200,6 +201,11 @@ const ApiPublicComplaintsSubmitRoute =
     path: '/api/public/complaints/submit',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicFeedbackCountRoute = ApiPublicFeedbackCountRouteImport.update({
+  id: '/api/public/feedback/count',
+  path: '/api/public/feedback/count',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicFeedbackSubmitRoute = ApiPublicFeedbackSubmitRouteImport.update({
   id: '/api/public/feedback/submit',
   path: '/api/public/feedback/submit',
@@ -238,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/api/public/complaints/count': typeof ApiPublicComplaintsCountRoute
   '/api/public/complaints/recent': typeof ApiPublicComplaintsRecentRoute
   '/api/public/complaints/submit': typeof ApiPublicComplaintsSubmitRoute
+  '/api/public/feedback/count': typeof ApiPublicFeedbackCountRoute
   '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
 }
 export interface FileRoutesByTo {
@@ -272,6 +279,7 @@ export interface FileRoutesByTo {
   '/api/public/complaints/count': typeof ApiPublicComplaintsCountRoute
   '/api/public/complaints/recent': typeof ApiPublicComplaintsRecentRoute
   '/api/public/complaints/submit': typeof ApiPublicComplaintsSubmitRoute
+  '/api/public/feedback/count': typeof ApiPublicFeedbackCountRoute
   '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
 }
 export interface FileRoutesById {
@@ -307,6 +315,7 @@ export interface FileRoutesById {
   '/api/public/complaints/count': typeof ApiPublicComplaintsCountRoute
   '/api/public/complaints/recent': typeof ApiPublicComplaintsRecentRoute
   '/api/public/complaints/submit': typeof ApiPublicComplaintsSubmitRoute
+  '/api/public/feedback/count': typeof ApiPublicFeedbackCountRoute
   '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
 }
 export interface FileRouteTypes {
@@ -343,6 +352,7 @@ export interface FileRouteTypes {
     | '/api/public/complaints/count'
     | '/api/public/complaints/recent'
     | '/api/public/complaints/submit'
+    | '/api/public/feedback/count'
     | '/api/public/feedback/submit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -377,6 +387,7 @@ export interface FileRouteTypes {
     | '/api/public/complaints/count'
     | '/api/public/complaints/recent'
     | '/api/public/complaints/submit'
+    | '/api/public/feedback/count'
     | '/api/public/feedback/submit'
   id:
     | '__root__'
@@ -411,6 +422,7 @@ export interface FileRouteTypes {
     | '/api/public/complaints/count'
     | '/api/public/complaints/recent'
     | '/api/public/complaints/submit'
+    | '/api/public/feedback/count'
     | '/api/public/feedback/submit'
   fileRoutesById: FileRoutesById
 }
@@ -446,6 +458,7 @@ export interface RootRouteChildren {
   ApiPublicComplaintsCountRoute: typeof ApiPublicComplaintsCountRoute
   ApiPublicComplaintsRecentRoute: typeof ApiPublicComplaintsRecentRoute
   ApiPublicComplaintsSubmitRoute: typeof ApiPublicComplaintsSubmitRoute
+  ApiPublicFeedbackCountRoute: typeof ApiPublicFeedbackCountRoute
   ApiPublicFeedbackSubmitRoute: typeof ApiPublicFeedbackSubmitRoute
 }
 
@@ -668,6 +681,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicComplaintsSubmitRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/feedback/count': {
+      id: '/api/public/feedback/count'
+      path: '/api/public/feedback/count'
+      fullPath: '/api/public/feedback/count'
+      preLoaderRoute: typeof ApiPublicFeedbackCountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/feedback/submit': {
       id: '/api/public/feedback/submit'
       path: '/api/public/feedback/submit'
@@ -710,6 +730,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicComplaintsCountRoute: ApiPublicComplaintsCountRoute,
   ApiPublicComplaintsRecentRoute: ApiPublicComplaintsRecentRoute,
   ApiPublicComplaintsSubmitRoute: ApiPublicComplaintsSubmitRoute,
+  ApiPublicFeedbackCountRoute: ApiPublicFeedbackCountRoute,
   ApiPublicFeedbackSubmitRoute: ApiPublicFeedbackSubmitRoute,
 }
 export const routeTree = rootRouteImport
