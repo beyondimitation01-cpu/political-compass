@@ -36,6 +36,13 @@
       "when": 1791478369295,
       "tag": "0004_complaints_feedback_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791482062497,
+      "tag": "0005_create_exec_sql",
+      "breakpoints": true
     }
   ]
 }
