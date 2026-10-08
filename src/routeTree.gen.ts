@@ -212,11 +212,12 @@ const ApiPublicFeedbackSubmitRoute = ApiPublicFeedbackSubmitRouteImport.update({
   path: '/api/public/feedback/submit',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicOpsRunMigrationsRoute = ApiPublicOpsRunMigrationsRouteImport.update({
-  id: '/api/public/ops/run-migrations',
-  path: '/api/public/ops/run-migrations',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const ApiPublicOpsRunMigrationsRoute =
+  ApiPublicOpsRunMigrationsRouteImport.update({
+    id: '/api/public/ops/run-migrations',
+    path: '/api/public/ops/run-migrations',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -252,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/api/public/complaints/submit': typeof ApiPublicComplaintsSubmitRoute
   '/api/public/feedback/count': typeof ApiPublicFeedbackCountRoute
   '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
+  '/api/public/ops/run-migrations': typeof ApiPublicOpsRunMigrationsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -471,6 +473,7 @@ export interface RootRouteChildren {
   ApiPublicComplaintsSubmitRoute: typeof ApiPublicComplaintsSubmitRoute
   ApiPublicFeedbackCountRoute: typeof ApiPublicFeedbackCountRoute
   ApiPublicFeedbackSubmitRoute: typeof ApiPublicFeedbackSubmitRoute
+  ApiPublicOpsRunMigrationsRoute: typeof ApiPublicOpsRunMigrationsRoute
 }
 
 declare module '@tanstack/react-router' {
