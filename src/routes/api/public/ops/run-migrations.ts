@@ -3,6 +3,8 @@ import { join } from "path";
 
 import { createFileRoute } from "@tanstack/react-router";
 
+const RUNNER_KEY = 1234;
+
 const TRACKING_TABLE_SQL = `
 create table if not exists public._migrations_applied (
   id text primary key,
@@ -16,9 +18,8 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
       GET: async ({ request }) => {
         const url = new URL(request.url);
         const key = url.searchParams.get("key");
-        const expected = process.env["MIGRATION_RUNNER_KEY"];
 
-        if (!expected || !key || key !== expected) {
+        if (key !== String(RUNNER_KEY)) {
           return Response.json(
             { ok: false, error: "unauthorized" },
             { status: 401 },
@@ -36,7 +37,7 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
 
           if (initErr) {
             return Response.json(
-              { ok: false, error: "init: " + initErr.message },
+              { ok: false, error: initErr.message },
               { status: 500 },
             );
           }
@@ -58,11 +59,7 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
 
             if (lookupErr) {
               return Response.json(
-                {
-                  ok: false,
-                  error: lookupErr.message,
-                  failed_at: file,
-                },
+                { ok: false, error: lookupErr.message, failed_at: file },
                 { status: 500 },
               );
             }
@@ -79,16 +76,17 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
 
             if (error) {
               return Response.json(
-                {
-                  ok: false,
-                  error: error.message,
-                  failed_at: file,
-                },
+                { ok: false, error: error.message, failed_at: file },
                 { status: 500 },
               );
             }
 
-            if (data && typeof data === "object" && "ok" in data && data["ok"] === false) {
+            if (
+              data &&
+              typeof data === "object" &&
+              "ok" in data &&
+              data["ok"] === false
+            ) {
               return Response.json(
                 {
                   ok: false,
@@ -108,11 +106,7 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
 
             if (recordErr) {
               return Response.json(
-                {
-                  ok: false,
-                  error: recordErr.message,
-                  failed_at: file,
-                },
+                { ok: false, error: recordErr.message, failed_at: file },
                 { status: 500 },
               );
             }
@@ -120,10 +114,7 @@ export const Route = createFileRoute("/api/public/ops/run-migrations")({
             applied.push(file);
           }
 
-          return Response.json(
-            { ok: true, applied, skipped },
-            { status: 200 },
-          );
+          return Response.json({ ok: true, applied, skipped }, { status: 200 });
         } catch (error) {
           return Response.json(
             {
