@@ -298,6 +298,7 @@ export interface FileRoutesByTo {
   '/api/public/feedback/count': typeof ApiPublicFeedbackCountRoute
   '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
   '/api/public/ops/run-migrations': typeof ApiPublicOpsRunMigrationsRoute
+  '/api/public/ops/seed-migrations': typeof ApiPublicOpsSeedMigrationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -335,6 +336,7 @@ export interface FileRoutesById {
   '/api/public/feedback/count': typeof ApiPublicFeedbackCountRoute
   '/api/public/feedback/submit': typeof ApiPublicFeedbackSubmitRoute
   '/api/public/ops/run-migrations': typeof ApiPublicOpsRunMigrationsRoute
+  '/api/public/ops/seed-migrations': typeof ApiPublicOpsSeedMigrationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -373,6 +375,7 @@ export interface FileRouteTypes {
     | '/api/public/feedback/count'
     | '/api/public/feedback/submit'
     | '/api/public/ops/run-migrations'
+    | '/api/public/ops/seed-migrations'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -409,6 +412,7 @@ export interface FileRouteTypes {
     | '/api/public/feedback/count'
     | '/api/public/feedback/submit'
     | '/api/public/ops/run-migrations'
+    | '/api/public/ops/seed-migrations'
   id:
     | '__root__'
     | '/'
@@ -726,6 +730,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicOpsRunMigrationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ops/seed-migrations': {
+      id: '/api/public/ops/seed-migrations'
+      path: '/api/public/ops/seed-migrations'
+      fullPath: '/api/public/ops/seed-migrations'
+      preLoaderRoute: typeof ApiPublicOpsSeedMigrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -764,6 +775,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicFeedbackCountRoute: ApiPublicFeedbackCountRoute,
   ApiPublicFeedbackSubmitRoute: ApiPublicFeedbackSubmitRoute,
   ApiPublicOpsRunMigrationsRoute: ApiPublicOpsRunMigrationsRoute,
+  ApiPublicOpsSeedMigrationsRoute: ApiPublicOpsSeedMigrationsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
